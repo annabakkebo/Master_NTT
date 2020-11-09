@@ -17,5 +17,6 @@
 
 int roots[PRIMITIVE_N];
 void load_roots(int *roots);
+void print_roots();
 
 #endif //NTT_PARAMS_H
