@@ -207,9 +207,10 @@ int main() {
             break;
         }
     }
-
+#if COUNTOPERATIONS==1
     printf("Normal multiplication:\nMultiplications: %d\nAdditions/subtractions: %d\n"
            "NTT multiplication:\nMultiplications: %d\nAdditions/subtractions:%d\n", Mult_Norm,AddSub_Norm,Mult_NTT,AddSub_NTT);
+#endif
     /*int pol9[N]={1};
     for(int i=0;i<N;i++){
         pol9[i]=1;

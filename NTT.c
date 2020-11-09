@@ -66,8 +66,10 @@ void splitting(int *pol, int n, int w){
         a = pol[i+n]*w;//printf("%d, ",pol[i]);
         pol[n+i]= (pol[i]-a)%Q;
         pol[i]=(pol[i]+a)%Q;
+#if COUNTOPERATIONS==1
         Mult_NTT+=1;
         AddSub_NTT+=1;
+#endif
     }
     //printf("\n");
 }
@@ -87,8 +89,10 @@ void merging(int * pol, int n, int w){
         a = pol[i]+pol[n+i];
         pol[n+i]= ((pol[n+i]-pol[i])*w)%Q;
         pol[i]=a;
+#if COUNTOPERATIONS==1
         Mult_NTT+=1;
         AddSub_NTT+=2;
+#endif
     }
 
 }
@@ -169,7 +173,9 @@ void innverse_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, i
 void innverse_finnish(int *pol){
     for(int i=0; i<N; i++){
         pol[i]=(pol[i]*INNVERSE_POWER_OF_TWO)%Q;
+#if COUNTOPERATIONS==1
         Mult_NTT+=1;
+#endif
     }
 }
 

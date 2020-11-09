@@ -13,16 +13,18 @@
 #define INNVERSE_POWER_OF_TWO 255// the inverse of 2^LEVEL he
 
 #define NUM_POLYNOMIALS 128// number of polynomials in the 7th level ie 2^LEVEL
+#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
 
 
 int roots[PRIMITIVE_N];
 void load_roots(int *roots);
 void print_roots();
-
+#if COUNTOPERATIONS==1
 int Mult_Norm;
 int AddSub_Norm;
 
 int Mult_NTT;
 int AddSub_NTT;
+#endif
 
 #endif //NTT_PARAMS_H

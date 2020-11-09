@@ -39,12 +39,16 @@ void step_multiplied_NTT(int *pol1, int *pol2, int *result,int w, int n){
             int pos2 = f(i, j, n);
             if (j + pos2 >= n) {
                 result[i] = (result[i] - w * pol1[j] * pol2[pos2]) % Q;
+#if COUNTOPERATIONS==1
                 Mult_NTT+=2;
                 AddSub_NTT+=1;
+#endif
             } else {
                 result[i] = (result[i] + pol1[j] * pol2[pos2]) % Q;
+#if COUNTOPERATIONS==1
                 Mult_NTT+=1;
                 AddSub_NTT+=1;
+#endif
             }
         }
     }
@@ -75,13 +79,17 @@ void multiplied_normal(int *pol1, int *pol2,int *result, int n){
             if (j + pos2 >= n) {
                 //printf("multipliserer %d og %d og lagrer det i posisjon %d (bruker minus)\n",pol1[j],pol2[pos2],i);
                 result[i] = (result[i] -  pol1[j] * pol2[pos2]) % Q;
+#if COUNTOPERATIONS==1
                 Mult_Norm+=1;
                 AddSub_Norm+=1;
+#endif
             } else {
                 //printf("multipliserer %d og %d og lagrer det i posisjon %d\n",pol1[j],pol2[pos2],i);
                 result[i] = (result[i] + pol1[j] * pol2[pos2]) % Q;
+#if COUNTOPERATIONS==1
                 Mult_Norm+=1;
                 AddSub_Norm+=1;
+#endif
             }
         }
     }
