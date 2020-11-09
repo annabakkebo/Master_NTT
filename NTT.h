@@ -63,9 +63,20 @@ void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, in
 void innverse_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, int n);
 void inverse_NTT();
 
+/**
+ * Multiplying by the innverse of 2^LEVEL
+ * @param pol The polynomial right after the innverse_NTT2 to finnish the inverse algorithm
+ */
 void innverse_finnish(int *pol);
 
+/**
+ * printing the NTTroots variable
+ */
 void printNTTRoots();
+
+/**
+ * printing the NTT_forward variable
+ */
 void printNTT_Forward();
 
 #endif //NTT_NTT_H
