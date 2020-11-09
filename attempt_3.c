@@ -24,6 +24,8 @@ int main() {
     load_roots( roots);
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL);
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);
+    int sizeofpol = N/NUM_POLYNOMIALS;
+    int move = NUM_POLYNOMIALS/2;
     /*printNTT_Forward();
     printNTTRoots();
     print_roots();*/
@@ -164,9 +166,9 @@ int main() {
     forward_NTT2(pol6,NTT_forward,0,0,LEVEL,N);
     forward_NTT2(pol7,NTT_forward,0,0,LEVEL,N);
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
-    multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,2,128);
+    multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
 
-    innverse_NTT2(resultNTT,NTT_forward+63,64,0,LEVEL,4);
+    innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
     clock_t end_NTT = clock();
