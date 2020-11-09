@@ -24,6 +24,8 @@ int main() {
     load_roots( roots);
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL);
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);
+    printNTTRoots();
+    printNTT_Forward();
 
     /*printf("NTT_forward: {");
     for(int i=0;i<32;i++){
@@ -162,7 +164,7 @@ int main() {
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,2,8);
 
-    innverse_NTT2(resultNTT,NTT_forward+3,4,0,LEVEL,4);
+    innverse_NTT2(resultNTT,NTT_forward+NUM_POLYNOMIALS,4,0,LEVEL,4);
 
     innverse_finnish(resultNTT);
     clock_t end_NTT = clock();
@@ -186,4 +188,20 @@ int main() {
     double time_spent_NTT = (double)(end_NTT-begin_NTT)/CLOCKS_PER_SEC;
 
     printf("The time spent with normal multiplication is %f\nTime spent with NTT multiplication is %f\n", time_spent_norm,time_spent_NTT);
+
+    int pol8[N]={0};
+    for(int i =0;i<N;i++){
+        pol8[i]=pol6[i];
+    }
+
+    forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
+    innverse_NTT2(pol8,NTT_forward+128,64,0,LEVEL,4);
+    innverse_finnish(pol8);
+    for(int i =0;i<N;i++){
+        if((pol8[i]-pol6[i])%Q!=0){
+            printf("The forward and innverse didn't work\n");
+            break;
+        }
+    }
+
 };

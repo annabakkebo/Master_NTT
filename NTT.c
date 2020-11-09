@@ -164,3 +164,18 @@ void innverse_finnish(int *pol){
         pol[i]=(pol[i]*INNVERSE_POWER_OF_TWO)%Q;
     }
 }
+
+void printNTTRoots(){
+    printf("The NTT roots are {");
+    for (int i =0;i<NUM_POLYNOMIALS;i++){
+        printf("%d, " ,NTT_roots[i]);
+    }
+    printf("}\n");
+}
+void printNTT_Forward(){
+    printf("The NTT forward are {");
+    for (int i =0;i<NUM_POLYNOMIALS;i++){
+        printf("%d, " ,NTT_forward[i]);
+    }
+    printf("}\n");
+}

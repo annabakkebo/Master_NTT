@@ -4,6 +4,8 @@
 
 #ifndef NTT_NTT_H
 #define NTT_NTT_H
+#include "params.h"
+
 
 /**
  * Stores the roots of unity that is used for the forward splitting
@@ -19,8 +21,8 @@ void initiate_NTT_forward(int *roots, int *NTT_forward, int n, int move, bool di
 
 void initiate_NTT_roots(int *NTT_forward, int level, int *NTT_roots);
 
-int NTT_forward[32];
-int NTT_roots[16];
+int NTT_forward[NUM_POLYNOMIALS*2];
+int NTT_roots[NUM_POLYNOMIALS];
 
 /**
  * Computes the forward NTT. This doesn´t work as of 8.11.20
@@ -62,5 +64,8 @@ void innverse_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, i
 void inverse_NTT();
 
 void innverse_finnish(int *pol);
+
+void printNTTRoots();
+void printNTT_Forward();
 
 #endif //NTT_NTT_H
