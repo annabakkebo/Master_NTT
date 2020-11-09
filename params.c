@@ -27,9 +27,10 @@ void print_roots(){
     }
     printf("}\n");
 }
-
+#if COUNTOPERATIONS==1
 Mult_Norm=0;
 AddSub_Norm=0;
 
 Mult_NTT=0;
 AddSub_NTT=0;
+#endif

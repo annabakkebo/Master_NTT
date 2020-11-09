@@ -21,10 +21,10 @@ void random_numb(int *pol, int n){
 }
 
 int main() {
-    load_roots( roots);
-    initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL);
-    initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);
-    int sizeofpol = N/NUM_POLYNOMIALS;
+    load_roots( roots); //creates list of the roots of unity
+    initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL); //creates list for the rules for NTT forward
+    initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);//list of the roots that is used for the multiplication when the polynomial is in NTT version
+    int sizeofpol = N/NUM_POLYNOMIALS; //size of the polynomials in the NTT version
     int move = NUM_POLYNOMIALS/2;
     /*printNTT_Forward();
     printNTTRoots();
