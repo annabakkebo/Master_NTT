@@ -24,6 +24,8 @@ int main() {
     load_roots( roots);
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL);
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);
+    printNTT_Forward();
+    printNTTRoots();
 
     /*printf("NTT_forward: {");
     for(int i=0;i<32;i++){
