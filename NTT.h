@@ -63,4 +63,6 @@ void inverse_NTT();
 
 void innverse_finnish(int *pol);
 
+void printNTT_Forward();
+void printNTTRoots();
 #endif //NTT_NTT_H
