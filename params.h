@@ -10,7 +10,7 @@
 #define ROOT_OF_UNITY 6 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 16 //to what power the root of unity is 1
 #define LEVEL 3 // how many levels that will be performed
-#define INNVERSE_POWER_OF_TWO -2// the inverse of 2^LEVEL
+#define INNVERSE_POWER_OF_TWO -2// the inverse of 2^LEVEL he
 
 
 int roots[PRIMITIVE_N];
