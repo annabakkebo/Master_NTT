@@ -191,7 +191,7 @@ int main() {
     double time_spent_norm = (double)(end_normal-begin_normal)/CLOCKS_PER_SEC;
     double time_spent_NTT = (double)(end_NTT-begin_NTT)/CLOCKS_PER_SEC;
 
-    printf("The time spent with normal multiplication is %f\nTime spent with NTT multiplication is %f\n", time_spent_norm,time_spent_NTT);
+    printf("The time spent with normal multiplication is %fs\nTime spent with NTT multiplication is %fs\n", time_spent_norm,time_spent_NTT);
 
     int pol8[N]={0};
     for(int i =0;i<N;i++){
@@ -199,7 +199,7 @@ int main() {
     }
 
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
-    innverse_NTT2(pol8,NTT_forward+63,64,0,LEVEL,4);
+    innverse_NTT2(pol8,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_finnish(pol8);
     for(int i =0;i<N;i++){
         if((pol8[i]-pol6[i])%Q!=0){
@@ -207,6 +207,9 @@ int main() {
             break;
         }
     }
+
+    printf("Normal multiplication:\nMultiplications: %d\nAdditions/subtractions: %d\n"
+           "NTT multiplication:\nMultiplications: %d\nAdditions/subtractions:%d\n", Mult_Norm,AddSub_Norm,Mult_NTT,AddSub_NTT);
     /*int pol9[N]={1};
     for(int i=0;i<N;i++){
         pol9[i]=1;

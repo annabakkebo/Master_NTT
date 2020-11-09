@@ -27,3 +27,9 @@ void print_roots(){
     }
     printf("}\n");
 }
+
+Mult_Norm=0;
+AddSub_Norm=0;
+
+Mult_NTT=0;
+AddSub_NTT=0;

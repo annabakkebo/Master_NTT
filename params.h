@@ -5,7 +5,7 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N 256 // the degree of the modulos polynomial, X^N+1
+#define N 768 // the degree of the modulos polynomial, X^N+1
 #define Q 257 // the modulos
 #define ROOT_OF_UNITY 3 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 256 //to what power the root of unity is 1
@@ -18,5 +18,11 @@
 int roots[PRIMITIVE_N];
 void load_roots(int *roots);
 void print_roots();
+
+int Mult_Norm;
+int AddSub_Norm;
+
+int Mult_NTT;
+int AddSub_NTT;
 
 #endif //NTT_PARAMS_H
