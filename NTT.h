@@ -19,6 +19,12 @@
  */
 void initiate_NTT_forward(int *roots, int *NTT_forward, int n, int move, bool direction , int start, int  stop);
 
+/**
+ * Creates list of roots that the multiplication will do modulo when doing multiplication after NTTforward
+ * @param NTT_forward The NTT_forward list
+ * @param level How many levels that will be computed
+ * @param NTT_roots The list where the roots will be stored
+ */
 void initiate_NTT_roots(int *NTT_forward, int level, int *NTT_roots);
 
 int NTT_forward[NUM_POLYNOMIALS*2];
