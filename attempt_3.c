@@ -24,9 +24,9 @@ int main() {
     load_roots( roots);
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL);
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);
-    printNTT_Forward();
+    /*printNTT_Forward();
     printNTTRoots();
-    print_roots();
+    print_roots();*/
 
 
     /*printf("NTT_forward: {");
@@ -143,7 +143,7 @@ int main() {
     for(int i=0;i<N;i++){
         printf("%d, ",pol6[i]);
     }
-    printf("} with { ");
+    printf("} \nwith { ");
     for(int i=0;i<N;i++){
         printf("%d, ",pol7[i]);
     }
@@ -151,7 +151,7 @@ int main() {
     clock_t begin_normal = clock();
     multiplied_normal(pol6,pol7,resultNormal,N);
     clock_t end_normal = clock();
-    printf("Checking that the multiplication is the same after the norm mult {");
+    /*printf("Checking that the multiplication is the same after the norm mult {");
     for(int i=0;i<N;i++){
         printf("%d, ",pol6[i]);
     }
@@ -159,14 +159,14 @@ int main() {
     for(int i=0;i<N;i++){
         printf("%d, ",pol7[i]);
     }
-    printf("}\n");
+    printf("}\n");*/
     clock_t begin_NTT = clock();
     forward_NTT2(pol6,NTT_forward,0,0,LEVEL,N);
     forward_NTT2(pol7,NTT_forward,0,0,LEVEL,N);
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
-    multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,2,8);
+    multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,2,128);
 
-    innverse_NTT2(resultNTT,NTT_forward+NUM_POLYNOMIALS,4,0,LEVEL,4);
+    innverse_NTT2(resultNTT,NTT_forward+63,64,0,LEVEL,4);
 
     innverse_finnish(resultNTT);
     clock_t end_NTT = clock();
@@ -197,13 +197,35 @@ int main() {
     }
 
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
-    innverse_NTT2(pol8,NTT_forward+128,64,0,LEVEL,4);
+    innverse_NTT2(pol8,NTT_forward+63,64,0,LEVEL,4);
     innverse_finnish(pol8);
     for(int i =0;i<N;i++){
         if((pol8[i]-pol6[i])%Q!=0){
-            printf("The forward and innverse didn't work\n");
+            printf("The forward and inverse didn't work\n");
             break;
         }
     }
+    /*int pol9[N]={1};
+    for(int i=0;i<N;i++){
+        pol9[i]=1;
+    }
+    printf("The polynomial before forward and inverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol9[i]);
+    }
+    printf("} \n");
+    forward_NTT2(pol9,NTT_forward,0,0,LEVEL,N);
+    printf("The polynomial after forward{ ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol9[i]);
+    }
+    printf("}\n");
 
+    innverse_NTT2(pol9,NTT_forward+63,64,0,LEVEL,4);
+    innverse_finnish(pol9);
+    printf("The polynomial after forward and inverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol9[i]);
+    }
+    printf("}\n");*/
 };

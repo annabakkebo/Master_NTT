@@ -63,10 +63,11 @@ void splitting(int *pol, int n, int w){
 
     int a;
     for(int i=0; i<n; i++){
-        a = pol[i+n]*w;
+        a = pol[i+n]*w;//printf("%d, ",pol[i]);
         pol[n+i]= (pol[i]-a)%Q;
         pol[i]=(pol[i]+a)%Q;
     }
+    //printf("\n");
 }
 
 /**
@@ -116,7 +117,8 @@ void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, in
     }
     start++;
     if(move==0){
-        //printf("Performing splitting mod %d\n This belongs to the %dth level\n",NTT_forward[0],start-1);
+        //printarray(pol,n);
+        //printf("Performing splitting mod %d\n This belongs to the %dth level\n \n \n  The polnomial ends up being:",NTT_forward[0],start-1);
         splitting(pol,n/2,NTT_forward[0]);
         //printarray(pol,n);
         forward_NTT2(pol, NTT_forward+1, 1, start, levels,  n/2);
@@ -154,6 +156,7 @@ void innverse_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, i
         printf("%d, ",pol[i]);
     }
     printf("}\n");*/
+    //printf("performing the %dth level of NTT innverse\n",start);
     move=move/2;
     start++;
     innverse_NTT2(pol, NTT_forward-move,move, start, levels,  n*2);
