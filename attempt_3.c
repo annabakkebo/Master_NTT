@@ -80,6 +80,7 @@ int main() {
     forward_NTT2(pol6,NTT_forward,0,0,LEVEL,N);
     forward_NTT2(pol7,NTT_forward,0,0,LEVEL,N);
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
+
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
 
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
@@ -111,7 +112,11 @@ int main() {
     for(int i =0;i<N;i++){
         pol8[i]=pol6[i];
     }
-
+    printf("Checking forward and innverse of {");
+    for(int i =0;i<N;i++){
+        printf("%d ",pol8[i]);
+    }
+    printf("}\n");
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
     innverse_NTT2(pol8,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_finnish(pol8);
