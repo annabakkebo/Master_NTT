@@ -20,6 +20,20 @@ void random_numb(int *pol, int n){
     }
 }
 
+void checkEqual(int*pol1, int *pol2, int n){
+    int result=0;
+    for(int i =0;i<n;i++){
+        if((pol1[i]-pol2[i])%Q!=0){
+            result=1;
+        }
+    }
+    if(result==0){
+        printf("The polynomials are equal mod %d\n",Q);
+    } else{
+        printf("The polynomials ar NOT equal mod %d\n",Q);
+    }
+}
+
 int main() {
     load_roots( roots); //creates list of the roots of unity
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL); //creates list for the rules for NTT forward
@@ -101,6 +115,7 @@ int main() {
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
     innverse_NTT2(pol8,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_finnish(pol8);
+    checkEqual(pol8,pol6,N);
     for(int i =0;i<N;i++){
         if((pol8[i]-pol6[i])%Q!=0){
             printf("The forward and inverse didn't work\n");
