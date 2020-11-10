@@ -81,6 +81,15 @@ int main() {
     forward_NTT2(pol7,NTT_forward,0,0,LEVEL,N);
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
 
+    printf("After NTT forward {");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol6[i]);
+    }
+    printf("} \nwith { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol7[i]);
+    }
+    printf("}\n");
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
 
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
