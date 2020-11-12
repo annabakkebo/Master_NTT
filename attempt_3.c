@@ -96,9 +96,19 @@ int main() {
         printf("%d, ",resultNTT[i]);
     }
     printf("} with NTT mult\n");
+    forward_NTT2(resultNormal,NTT_forward,0,0,LEVEL,N);
+    printf("ResultNorm before innverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",resultNormal[i]);
+    }
+    printf("} with NTT mult\n");
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
+
+    innverse_NTT2(resultNormal,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
+
+    innverse_finnish(resultNormal);
     clock_t end_NTT = clock();
     printf("The result is  {");
     for(int i=0;i<N;i++){
