@@ -5,6 +5,8 @@
 #ifndef NTT_MULTIPLICATION_H
 #define NTT_MULTIPLICATION_H
 
+
+
 /**
  * Updates result to be the multiplication of pol1 and pol2
  *
@@ -16,7 +18,7 @@
  * @param amountofpol Number of polynomials that will be multiplied
  * @author Anna Bakkebø
  */
-void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol, int amountofpol);
+void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long sizeofpol, long amountofpol);
 
 /**
  * Normal multiplication modulo x^N+1, the result is stored in result
@@ -26,7 +28,7 @@ void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol
  * @param n  The degree of the modulo polynomial
  * @author Anna Bakkebø
  */
-void multiplied_normal(int *pol1, int *pol2,int *result, int n);
+void multiplied_normal(long *pol1, long *pol2,long *result, long n);
 
 /**
  * Updates pol1 to be the multiplication of pol1 and pol2 when the modulos polynomial is just a random polynomial
@@ -36,7 +38,7 @@ void multiplied_normal(int *pol1, int *pol2,int *result, int n);
  * @param n The degree of the modulos polynomial
  * @author Anna Bakkebø
  */
-void multiplied_rand(int *pol1, int *pol2, int *modpol, int n);
+void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);
 
 
 #endif //NTT_MULTIPLICATION_H
