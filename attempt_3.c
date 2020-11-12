@@ -13,19 +13,22 @@
 #include <time.h>
 #include <stdlib.h>
 
-void random_numb(int *pol, int n){
 
-    for(int i=0;i<n;i++){
+
+void random_numb(long *pol, long n){
+
+    for(long i=0;i<n;i++){
         pol[i]=rand()%Q;
     }
 }
 
-int main() {
+long main() {
     load_roots( roots); //creates list of the roots of unity
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL); //creates list for the rules for NTT forward
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);//list of the roots that is used for the multiplication when the polynomial is in NTT version
-    int sizeofpol = N/NUM_POLYNOMIALS; //size of the polynomials in the NTT version
-    int move = NUM_POLYNOMIALS/2;
+    long sizeofpol = N/NUM_POLYNOMIALS; //size of the polynomials in the NTT version
+    long move = NUM_POLYNOMIALS/2;
+
     /*printNTT_Forward();
     printNTTRoots();
     print_roots();*/
@@ -133,20 +136,20 @@ int main() {
     }
     printf("}\n");*/
 
-    int pol6[N]={0};
-    int pol7[N]={0};
-    int resultNormal[N]={0};
-    int resultNTT[N]={0};
+    long pol6[N]={0};
+    long pol7[N]={0};
+    long resultNormal[N]={0};
+    long resultNTT[N]={0};
     srand(time(NULL));
     random_numb(pol6,N);
     random_numb(pol7,N);
 
     printf("We will now multiply {");
-    for(int i=0;i<N;i++){
+    for(long i=0;i<N;i++){
         printf("%d, ",pol6[i]);
     }
     printf("} \nwith { ");
-    for(int i=0;i<N;i++){
+    for(long i=0;i<N;i++){
         printf("%d, ",pol7[i]);
     }
     printf("}\n");
@@ -173,16 +176,16 @@ int main() {
     innverse_finnish(resultNTT);
     clock_t end_NTT = clock();
     printf("The result is  {");
-    for(int i=0;i<N;i++){
+    for(long i=0;i<N;i++){
         printf("%d, ",resultNormal[i]);
     }
     printf("} with normal mult, \n and { ");
-    for(int i=0;i<N;i++){
+    for(long i=0;i<N;i++){
         printf("%d, ",resultNTT[i]);
     }
     printf("} with NTT mult\n");
 
-    for(int i=0;i<N;i++){
+    for(long i=0;i<N;i++){
         if((resultNTT[i]-resultNormal[i])%Q!=0){
             printf("The multiplication failed!\n");
             break;
@@ -193,15 +196,15 @@ int main() {
 
     printf("The time spent with normal multiplication is %fs\nTime spent with NTT multiplication is %fs\n", time_spent_norm,time_spent_NTT);
 
-    int pol8[N]={0};
-    for(int i =0;i<N;i++){
+    long pol8[N]={0};
+    for(long i =0;i<N;i++){
         pol8[i]=pol6[i];
     }
 
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
     innverse_NTT2(pol8,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_finnish(pol8);
-    for(int i =0;i<N;i++){
+    for(long i =0;i<N;i++){
         if((pol8[i]-pol6[i])%Q!=0){
             printf("The forward and inverse didn't work\n");
             break;

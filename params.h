@@ -17,7 +17,7 @@
 
 
 int roots[PRIMITIVE_N];
-void load_roots(int *roots);
+void load_roots(long *roots);
 void print_roots();
 #if COUNTOPERATIONS==1
 int Mult_Norm;
