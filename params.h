@@ -5,14 +5,14 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N 32 // the degree of the modulos polynomial, X^N+1
-#define Q 2753 // the modulos
-#define ROOT_OF_UNITY 6 // the PRIMITIVE_N th root of unity
-#define PRIMITIVE_N 64 //to what power the root of unity is 1
-#define LEVEL 4 // how many levels that will be performed
-#define INNVERSE_POWER_OF_TWO 2581// the inverse of 2^LEVEL he
+#define N 128 // the degree of the modulos polynomial, X^N+1
+#define Q 1153 // the modulos
+#define ROOT_OF_UNITY 38 // the PRIMITIVE_N th root of unity
+#define PRIMITIVE_N 128 //to what power the root of unity is 1
+#define LEVEL 6 // how many levels that will be performed
+#define INNVERSE_POWER_OF_TWO 1135// the inverse of 2^LEVEL he
 
-#define NUM_POLYNOMIALS 16// number of polynomials in the LEVELth level ie 2^LEVEL
+#define NUM_POLYNOMIALS 64// number of polynomials in the LEVELth level ie 2^LEVEL
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
 
 
