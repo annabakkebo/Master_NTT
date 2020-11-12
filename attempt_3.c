@@ -112,7 +112,7 @@ int main() {
 
     for(int i=0;i<N;i++){
         if((resultNTT[i]-resultNormal[i])%Q!=0){
-            printf("The multiplication failed!\n");
+            printf("The multiplication failed!\n!!!\n!!!\n");
             break;
         }
     }
