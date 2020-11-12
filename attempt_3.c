@@ -46,9 +46,6 @@ long main() {
     printNTTRoots();
     print_roots();*/
 
-
-
-
     long pol6[N]={0};
     long pol7[N]={0};
     long resultNormal[N]={0};
