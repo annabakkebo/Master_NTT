@@ -5,7 +5,7 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N 256 // the degree of the modulos polynomial, X^N+1
+#define N 384 // the degree of the modulos polynomial, X^N+1
 #define Q 769 // the modulos
 #define ROOT_OF_UNITY 7 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 256 //to what power the root of unity is 1

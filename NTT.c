@@ -141,17 +141,17 @@ void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, in
     else{
         move=move*2;
         for(int i=0; i<move;i++){
-            if(start==levels){
+            /*if(start==levels){
                 printf("Performing the last step of the forward NTT splitting {");
                 printarray(pol+i*n,n);
                 printf("using %d\n",NTT_forward[i]);
-            }
+            }*/
             splitting(pol+i*n,n/2,NTT_forward[i]);
-            if(start==levels){
+            /*if(start==levels){
                 printf("Resulting in {");
                 printarray(pol+i*n,n);
 
-            }
+            }*/
             //printf("performing splitting mod %d of the %dth part of the polynomial\n ",NTT_forward[i],n);
         }
         //printf("This belong to the %dth level\n", start-1);
