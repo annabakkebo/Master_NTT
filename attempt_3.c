@@ -42,9 +42,9 @@ long main() {
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);//list of the roots that is used for the multiplication when the polynomial is in NTT version
     long sizeofpol = N/NUM_POLYNOMIALS; //size of the polynomials in the NTT version
     long move = NUM_POLYNOMIALS/2;
-    printNTT_Forward();
+    /*printNTT_Forward();
     printNTTRoots();
-    print_roots();
+    print_roots();*/
 
 
 
@@ -56,7 +56,7 @@ long main() {
     srand(time(NULL));
     random_numb(pol6,N);
     random_numb(pol7,N);
-
+    /*
     printf("We will now multiply {");
     for(long i=0;i<N;i++){
         printf("%d, ",pol6[i]);
@@ -65,7 +65,7 @@ long main() {
     for(long i=0;i<N;i++){
         printf("%d, ",pol7[i]);
     }
-    printf("}\n");
+    printf("}\n");*/
     clock_t begin_normal = clock();
     multiplied_normal(pol6,pol7,resultNormal,N);
     clock_t end_normal = clock();
@@ -83,7 +83,7 @@ long main() {
     forward_NTT2(pol7,NTT_forward,0,0,LEVEL,N);
     //multiplied_NTT(pol1,pol3,result,NTT_roots,2,8);
 
-    printf("After NTT forward {");
+    /*printf("After NTT forward {");
     for(long i=0;i<N;i++){
         printf("%d, ",pol6[i]);
     }
@@ -91,9 +91,9 @@ long main() {
     for(long i=0;i<N;i++){
         printf("%d, ",pol7[i]);
     }
-    printf("}\n");
+    printf("}\n");*/
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
-    printf("Result before innverse { ");
+    /*printf("Result before innverse { ");
     for(long i=0;i<N;i++){
         printf("%d, ",resultNTT[i]);
     }
@@ -105,18 +105,18 @@ long main() {
     }
     printf("} with NTT mult\n");
 
-    checkEqual(resultNormal,resultNTT,N);
+    checkEqual(resultNormal,resultNTT,N);*/
 
 
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
 
-    innverse_NTT2(resultNormal,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
+    /*innverse_NTT2(resultNormal,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
-    innverse_finnish(resultNormal);
+    innverse_finnish(resultNormal);*/
     clock_t end_NTT = clock();
-    printf("The result is  {");
+    /*printf("The result is  {");
     for(long i=0;i<N;i++){
         printf("%d, ",resultNormal[i]);
     }
@@ -131,7 +131,7 @@ long main() {
             printf("The multiplication failed!\n");
             break;
         }
-    }
+    }*/
     double time_spent_norm = (double)(end_normal-begin_normal)/CLOCKS_PER_SEC;
     double time_spent_NTT = (double)(end_NTT-begin_NTT)/CLOCKS_PER_SEC;
 
@@ -141,7 +141,7 @@ long main() {
     for(long i =0;i<N;i++){
         pol8[i]=pol6[i];
     }
-    printf("Checking forward and innverse of {");
+    /*printf("Checking forward and innverse of {");
     for(long i =0;i<N;i++){
         printf("%d, ",pol8[i]);
     }
@@ -160,7 +160,7 @@ long main() {
             printf("The forward and inverse didn't work\n");
             break;
         }
-    }
+    }*/
 #if COUNTOPERATIONS==1
     printf("Normal multiplication:\nMultiplications: %d\nAdditions/subtractions: %d\n"
            "NTT multiplication:\nMultiplications: %d\nAdditions/subtractions:%d\n", Mult_Norm,AddSub_Norm,Mult_NTT,AddSub_NTT);
@@ -168,7 +168,7 @@ long main() {
     long pol9[N]={1};
     for(long i=0;i<N;i++){
         pol9[i]=1;
-    }
+    }/*
     printf("The polynomial before forward and inverse { ");
     for(long i=0;i<N;i++){
         printf("%d, ",pol9[i]);
@@ -187,5 +187,5 @@ long main() {
     for(long i=0;i<N;i++){
         printf("%d, ",pol9[i]);
     }
-    printf("}\n");
+    printf("}\n");*/
 };
