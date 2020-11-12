@@ -91,7 +91,11 @@ int main() {
     }
     printf("}\n");
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
-
+    printf("Result before innverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",resultNTT[i]);
+    }
+    printf("} with NTT mult\n");
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
@@ -123,12 +127,17 @@ int main() {
     }
     printf("Checking forward and innverse of {");
     for(int i =0;i<N;i++){
-        printf("%d ",pol8[i]);
+        printf("%d, ",pol8[i]);
     }
     printf("}\n");
     forward_NTT2(pol8,NTT_forward,0,0,LEVEL,N);
     innverse_NTT2(pol8,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_finnish(pol8);
+    printf("The polynomial after forward and inverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",pol8[i]);
+    }
+    printf("}\n");
     checkEqual(pol8,pol6,N);
     for(int i =0;i<N;i++){
         if((pol8[i]-pol6[i])%Q!=0){

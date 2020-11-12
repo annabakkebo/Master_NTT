@@ -107,6 +107,12 @@ void forward_NTT(int *pol,int  i,int  n,int  m, int *roots, int start, int stop)
             pol[n + j] = pol[j] - a;
             pol[j] = pol[j] + a;
         }*/
+        if(start==stop){
+            printf("Performing the last step of the forward NTT splitting {");
+            for(int i=0;i<n;i++){
+                printarray(pol,n);
+            }printf("using %d\n",roots[i]);
+        }
         splitting(pol, n, roots[i]);
         //printf("performing splitting mod %d\n",roots[i]);
     }
@@ -135,7 +141,17 @@ void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, in
     else{
         move=move*2;
         for(int i=0; i<move;i++){
+            if(start==levels){
+                printf("Performing the last step of the forward NTT splitting {");
+                printarray(pol+i*n,n);
+                printf("using %d\n",NTT_forward[i]);
+            }
             splitting(pol+i*n,n/2,NTT_forward[i]);
+            if(start==levels){
+                printf("Resulting in {");
+                printarray(pol+i*n,n);
+
+            }
             //printf("performing splitting mod %d of the %dth part of the polynomial\n ",NTT_forward[i],n);
         }
         //printf("This belong to the %dth level\n", start-1);
