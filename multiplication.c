@@ -57,7 +57,7 @@ void step_multiplied_NTT(int *pol1, int *pol2, int *result,int w, int n){
 void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol, int amountofpol){
     int j=0;
     for(int i=0;i<amountofpol;i++){
-        /*printf("Multiplying {");
+        printf("Multiplying {");
         for(int k=0;k<sizeofpol;k++){
             printf("%d, ", (pol1+j)[k]);
         }
@@ -65,13 +65,13 @@ void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol
         for(int k=0;k<sizeofpol;k++){
             printf("%d, ", (pol2+j)[k]);
         }
-        printf("} using %d\n",roots[i]);*/
+        printf("} using %d\n",roots[i]);
         step_multiplied_NTT(pol1+j,pol2+j,result+j,roots[i],sizeofpol);
-        /*printf("Resulting in {");
+        printf("Resulting in {");
         for(int k=0;k<sizeofpol;k++){
             printf("%d, ", (result+j)[k]);
         }
-        printf("} \n");*/
+        printf("} \n");
         j+=sizeofpol;
     }
 }

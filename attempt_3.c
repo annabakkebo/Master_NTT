@@ -25,6 +25,7 @@ void checkEqual(int*pol1, int *pol2, int n){
     for(int i =0;i<n;i++){
         if((pol1[i]-pol2[i])%Q!=0){
             result=1;
+            printf("Fail at the %d th element ",i);
         }
     }
     if(result==0){
@@ -91,14 +92,27 @@ int main() {
     }
     printf("}\n");
     multiplied_NTT(pol6,pol7,resultNTT,NTT_roots,sizeofpol,NUM_POLYNOMIALS);
+    forward_NTT2(resultNormal,NTT_forward,0,0,LEVEL,N);
     printf("Result before innverse { ");
     for(int i=0;i<N;i++){
         printf("%d, ",resultNTT[i]);
     }
     printf("} with NTT mult\n");
+    printf("Resultnorm before innverse { ");
+    for(int i=0;i<N;i++){
+        printf("%d, ",resultNormal[i]);
+    }
+    printf("} with NTT mult\n");
+
+    printf("Checking that the results are the same after multiplication and innverse forward:");
+    checkEqual(resultNormal,resultNTT,N);
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
+
+    innverse_NTT2(resultNormal,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
+
+    innverse_finnish(resultNormal);
     clock_t end_NTT = clock();
     printf("The result is  {");
     for(int i=0;i<N;i++){
