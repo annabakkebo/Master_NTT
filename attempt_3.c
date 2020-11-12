@@ -25,6 +25,7 @@ void checkEqual(int*pol1, int *pol2, int n){
     for(int i =0;i<n;i++){
         if((pol1[i]-pol2[i])%Q!=0){
             result=1;
+            printf("Fail at the %d th element ",i);
         }
     }
     if(result==0){
@@ -102,6 +103,10 @@ int main() {
         printf("%d, ",resultNormal[i]);
     }
     printf("} with NTT mult\n");
+
+    checkEqual(resultNormal,resultNTT,N);
+
+
     innverse_NTT2(resultNTT,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
     innverse_finnish(resultNTT);
