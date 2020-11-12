@@ -5,6 +5,8 @@
 #include "params.h"
 #include <stdio.h>
 
+
+
 /**
  * Determines what position of the second polynomial that will be multiplied by the j-th position of the first
  * polynomial for the i-th position of the result
@@ -15,7 +17,7 @@
  * @author Anna Bakkebø
  *
  */
-int f(int i, int j, int n) {
+long f(long i, long j, long n) {
     if (i >= j) {
         return i - j;
     } else {
@@ -33,10 +35,10 @@ int f(int i, int j, int n) {
  * @param n The degree of the modpol
  * @author Anna Bakkebø
  */
-void step_multiplied_NTT(int *pol1, int *pol2, int *result,int w, int n){
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int pos2 = f(i, j, n);
+void step_multiplied_NTT(long *pol1, long *pol2, long *result,long w, long n){
+    for (long i = 0; i < n; i++) {
+        for (long j = 0; j < n; j++) {
+            long pos2 = f(i, j, n);
             if (j + pos2 >= n) {
                 result[i] = (result[i] - w * pol1[j] * pol2[pos2]) % Q;
 #if COUNTOPERATIONS==1
@@ -54,21 +56,21 @@ void step_multiplied_NTT(int *pol1, int *pol2, int *result,int w, int n){
     }
 }
 
-void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol, int amountofpol){
-    int j=0;
-    for(int i=0;i<amountofpol;i++){
+void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long sizeofpol, long amountofpol){
+    long j=0;
+    for(long i=0;i<amountofpol;i++){
         printf("Multiplying {");
-        for(int k=0;k<sizeofpol;k++){
+        for(long k=0;k<sizeofpol;k++){
             printf("%d, ", (pol1+j)[k]);
         }
         printf("} with {");
-        for(int k=0;k<sizeofpol;k++){
+        for(long k=0;k<sizeofpol;k++){
             printf("%d, ", (pol2+j)[k]);
         }
         printf("} using %d\n",roots[i]);
         step_multiplied_NTT(pol1+j,pol2+j,result+j,roots[i],sizeofpol);
         printf("Resulting in {");
-        for(int k=0;k<sizeofpol;k++){
+        for(long k=0;k<sizeofpol;k++){
             printf("%d, ", (result+j)[k]);
         }
         printf("} \n");
@@ -77,10 +79,10 @@ void multiplied_NTT(int *pol1, int *pol2, int *result, int* roots, int sizeofpol
 }
 
 
-void multiplied_normal(int *pol1, int *pol2,int *result, int n){
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            int pos2 = f(i, j, n);
+void multiplied_normal(long *pol1, long *pol2,long *result, long n){
+    for (long i = 0; i < n; i++) {
+        for (long j = 0; j < n; j++) {
+            long pos2 = f(i, j, n);
             if (j + pos2 >= n) {
                 //printf("multipliserer %d og %d og lagrer det i posisjon %d (bruker minus)\n",pol1[j],pol2[pos2],i);
                 result[i] = (result[i] -  pol1[j] * pol2[pos2]) % Q;
@@ -101,4 +103,4 @@ void multiplied_normal(int *pol1, int *pol2,int *result, int n){
 }
 
 
-void multiplied_rand(int *pol1, int *pol2, int *modpol, int n);
+void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);
