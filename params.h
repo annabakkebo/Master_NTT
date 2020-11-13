@@ -16,7 +16,7 @@
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
 
 
-int roots[PRIMITIVE_N];
+long roots[PRIMITIVE_N];
 void load_roots(long *roots);
 void print_roots();
 #if COUNTOPERATIONS==1
