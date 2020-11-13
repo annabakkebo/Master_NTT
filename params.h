@@ -22,6 +22,9 @@ long roots[PRIMITIVE_N];
  * @param roots The array where the roots of unity will be stored
  */
 void load_roots(long *roots);
+/**
+ * printing the list of roots of unity
+ */
 void print_roots();
 #if COUNTOPERATIONS==1
 int Mult_Norm;
