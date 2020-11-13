@@ -12,11 +12,15 @@
 #define LEVEL 11 // how many levels that will be performed
 #define INNVERSE_POWER_OF_TWO 12283// the inverse of 2^LEVEL he
 
-#define NUM_POLYNOMIALS 2048// number of polynomials in the LEVELth level ie 2^LEVEL
+#define NUM_POLYNOMIALS (2*2*2*2*2*2*2*2*2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
 
 
 long roots[PRIMITIVE_N];
+/**
+ * Stores the different roots of unity in the array roots
+ * @param roots The array where the roots of unity will be stored
+ */
 void load_roots(long *roots);
 void print_roots();
 #if COUNTOPERATIONS==1
