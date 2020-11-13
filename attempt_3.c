@@ -27,7 +27,7 @@ void checkEqual(long*pol1, long *pol2, long n){
     for(long i =0;i<n;i++){
         if((pol1[i]-pol2[i])%Q!=0){
             result=1;
-            printf("Fail at the %d th element ",i);
+            printf("Fail at the %ld th element ",i);
         }
     }
     if(result==0){
@@ -37,7 +37,7 @@ void checkEqual(long*pol1, long *pol2, long n){
     }
 }
 
-long main() {
+int main() {
     load_roots( roots); //creates list of the roots of unity
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, LEVEL); //creates list for the rules for NTT forward
     initiate_NTT_roots(NTT_forward,LEVEL,NTT_roots);//list of the roots that is used for the multiplication when the polynomial is in NTT version
@@ -107,9 +107,11 @@ long main() {
            "Time spent with NTT multiplication is %fs\n"
            "Time spent on the actual multiplication part of NTT is %fs\n", time_spent_norm,time_spent_NTT,time_spent_mult_NTT);
 
+    int difference= (end_normal-begin_normal)/(end_NTT-begin_NTT);
+    printf("The NTT multiplication is roughly %d times faster",difference);
 #if COUNTOPERATIONS==1
     printf("Normal multiplication:\nMultiplications: %d\nAdditions/subtractions: %d\n"
            "NTT multiplication:\nMultiplications: %d\nAdditions/subtractions:%d\n", Mult_Norm,AddSub_Norm,Mult_NTT,AddSub_NTT);
 #endif
-
-};
+    return 0;
+}

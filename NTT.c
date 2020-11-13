@@ -13,7 +13,7 @@ void printarray(long *array, long n)
 {
     printf("{");
     for(long i=0; i<n;i++){
-        printf("%d, ",array[i]);
+        printf("%ld, ",array[i]);
     }
     printf("}\n");
 }
@@ -183,14 +183,14 @@ void innverse_finnish(long *pol){
 void printNTTRoots(){
     printf("The NTT roots are {");
     for (long i =0;i<NUM_POLYNOMIALS;i++){
-        printf("%d, " ,NTT_roots[i]);
+        printf("%ld, " ,NTT_roots[i]);
     }
     printf("}\n");
 }
 void printNTT_Forward(){
     printf("The NTT forward are {");
     for (long i =0;i<NUM_POLYNOMIALS;i++){
-        printf("%d, " ,NTT_forward[i]);
+        printf("%ld, " ,NTT_forward[i]);
     }
     printf("}\n");
 }

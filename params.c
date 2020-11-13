@@ -24,7 +24,7 @@ void load_roots(long *roots){
 void print_roots(){
     printf("The roots of are: {");
     for(long i=0;i<PRIMITIVE_N;i++){
-        printf("%d, ",roots[i]);
+        printf("%ld, ",roots[i]);
     }
     printf("}\n");
 }
