@@ -98,4 +98,12 @@ void multiplied_normal(long *pol1, long *pol2,long *result, long n){
 }
 
 
+long lpow(long base, long power){
+    long result=1;
+    for(long i=0;i<power;i++){
+        result=result*base;
+    }
+    return result;
+}
+
 void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);

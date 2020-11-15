@@ -40,5 +40,6 @@ void multiplied_normal(long *pol1, long *pol2,long *result, long n);
  */
 void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);
 
+long lpow(long base, long power);
 
 #endif //NTT_MULTIPLICATION_H
