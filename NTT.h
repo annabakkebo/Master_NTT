@@ -74,8 +74,9 @@ void inverse_NTT();
 /**
  * Multiplying by the innverse of 2^LEVEL
  * @param pol The polynomial right after the innverse_NTT2 to finnish the inverse algorithm
+ * @param inverse The innverse of the power of two
  */
-void innverse_finnish(long *pol);
+void innverse_finnish(long *pol, int inverse);
 
 /**
  * printing the NTTroots variable

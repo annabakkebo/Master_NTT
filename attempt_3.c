@@ -44,6 +44,7 @@ int main() {
     long sizeofpol = N/NUM_POLYNOMIALS; //size of the polynomials in the NTT version
     long move = NUM_POLYNOMIALS/2;
 
+
     long pol1[N]={0};
     long pol2[N]={0};
     long pol3[N]={0};
@@ -89,9 +90,9 @@ int main() {
     innverse_NTT2(resultNTT2,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
     innverse_NTT2(resultNTT3,NTT_forward+move-1,move,0,LEVEL,sizeofpol*2);
 
-    innverse_finnish(resultNTT1);
-    innverse_finnish(resultNTT2);
-    innverse_finnish(resultNTT3);
+    innverse_finnish(resultNTT1,INNVERSE_POWER_OF_TWO);
+    innverse_finnish(resultNTT2, INNVERSE_POWER_OF_TWO);
+    innverse_finnish(resultNTT3,INNVERSE_POWER_OF_TWO);
     clock_t end_NTT = clock();
 
     double time_spent_norm = (double)(end_normal-begin_normal)/CLOCKS_PER_SEC;
