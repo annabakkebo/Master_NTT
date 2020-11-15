@@ -118,8 +118,6 @@ void forward_NTT(long *pol,long  i,long  n,long  m, long *roots, long start, lon
     forward_NTT(pol+n*2, i+m/4, n, m, roots, current, stop);
 }
 
-
-
 void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long levels, long n){
     if(start==levels){
         return;
