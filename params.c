@@ -7,7 +7,10 @@
 #include "multiplication.h"
 
 
-
+long the_level;
+long sizeofpol;
+long move;
+long num_polynomials;
 
 void load_roots(long *roots){
     long w = 1;
@@ -22,26 +25,58 @@ void load_roots(long *roots){
     }
 }
 
-long the_level;
+
 void load_level(long level){
     if(level<LEVEL){
         the_level=level;
+        load_num_polynomials();
     } else{
         the_level=LEVEL;
+        load_num_polynomials();
     }
 }
 long get_Level(){
     return the_level;
 }
 
-long num_polynomials;
+
 void load_num_polynomials(){
     num_polynomials=lpow(2,get_Level());
 }
 long get_num_polynomials(){
     return num_polynomials;
 };
+long n;
+long get_N(){
+    return n;
+}
+void set_N(long power){
+    if(power>20){
+        printf("Too big size\n");
+        n=N;
+        return;
+    }
+    long new_n = lpow(2,power);
+    if(new_n>N){
+        n=N;
+    }else{
+        n=new_n;
+    }
+}
 
+
+void load_size_of_pol_move(){
+    sizeofpol = get_N()/get_num_polynomials(); //size of the polynomials in the NTT version
+    move = get_num_polynomials()/2;
+}
+
+long get_sizeofpol(){
+    return sizeofpol;
+}
+
+long get_move(){
+    return move;
+}
 
 void load_inverses(long *inverses){
     long w=1;

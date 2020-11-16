@@ -170,7 +170,7 @@ void innverse_NTT2(long *pol, long *NTT_forward,long move, long start, long leve
 }
 
 void innverse_finnish(long *pol,int inverse){
-    for(long i=0; i<N; i++){
+    for(long i=0; i<get_N(); i++){
         pol[i]=(pol[i]*inverse)%Q;
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;

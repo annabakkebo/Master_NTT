@@ -5,7 +5,7 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N (4096*2*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
+#define N (4096*2*2*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
 #define ROOT_OF_UNITY 41 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 4096 //to what power the root of unity is 1
@@ -13,7 +13,7 @@
 #define INNVERSE_POWER_OF_TWO 6145// the inverse of 2
 
 #define NUM_POLYNOMIALS (2*2*2*2*2*2*2*2*2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
-#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#define COUNTOPERATIONS 1// 0 for not counting and 1 for counting
 
 
 long roots[PRIMITIVE_N];
@@ -38,6 +38,14 @@ long inverses_power_of_two[LEVEL+1];
 void load_inverses(long *inverses);
 void print_inverses();
 
+long get_N();
+void set_N(long power);
+
+long get_sizeofpol();
+
+long get_move();
+
+void load_size_of_pol_move();
 
 /**
  * printing the list of roots of unity
