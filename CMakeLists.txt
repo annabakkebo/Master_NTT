@@ -3,4 +3,4 @@ project(NTT C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(NTT params.h NTT.h NTT.c params.c multiplication.h multiplication.c attempt_3.c)
+add_executable(NTT params.h NTT.h NTT.c params.c multiplication.h multiplication.c main.c)
