@@ -31,18 +31,24 @@ void checkEqual(long*pol1, long *pol2, long n){
         }
     }
     if(result==0){
-        printf("The polynomials are equal mod %d\n",Q);
+        //printf("The polynomials are equal mod %d ",Q);
     } else{
-        printf("The polynomials are NOT equal mod %d\n",Q);
+        printf("The polynomials are NOT equal mod %d ",Q);
     }
 }
 
-void initiate(long power){
+void initiate(long power, long level){
     load_roots( roots); //creates list of the roots of unity
+    if(power<level){
+        printf("The power can't be higher than the level. I therefore changed so the level is %ld and power is %ld\n",power,level);
+        set_N(level);
 
-    set_N(power);
+        load_level(power);
+    }else{
+        set_N(power);
 
-    load_level(power);
+        load_level(level);
+    }
 
     //printf("2^%ld=%ld\n",get_Level(),get_num_polynomials());
     initiate_NTT_forward(roots, NTT_forward, PRIMITIVE_N / 2, 1, false, 0, get_Level()); //creates list for the rules for NTT forward
@@ -76,7 +82,8 @@ int main() {
 
     int difference;
 
-    for(long i=1;i<16;i++){
+    for(long i=4;i<10;i++){
+        for(long j=0;j<i;j++){
 #if COUNTOPERATIONS==1
         Mult_Norm=0;
         AddSub_Norm=0;
@@ -84,8 +91,8 @@ int main() {
         AddSub_NTT=0;
 #endif
 
-        initiate(i);
-        printf("The levels testing are %ld, and the N is %ld\n",get_Level(),get_N());
+        initiate(i,i-j);
+        printf("Levels: %ld     N: %ld\n",get_Level(),get_N());
 
         random_numb(pol1,N);
         random_numb(pol2,N);
@@ -105,7 +112,7 @@ int main() {
             resultNTT3[j]=0;
         }
 
-        printf("Multiplying the ''Normal way''\n");
+        printf("Multiplying the ''Normal way''...   ");
         begin_normal = clock();
 
         multiplied_normal(pol1,pol2,resultNormal1,get_N());
@@ -113,7 +120,7 @@ int main() {
         multiplied_normal(pol6,pol7,resultNormal3,get_N());
         end_normal = clock();
 
-        printf("Multiplying using NTT\n");
+        printf("Multiplying using NTT...\n");
         begin_NTT = clock();
 
         forward_NTT2(pol1,NTT_forward,0,0,get_Level(),get_N());
@@ -146,22 +153,24 @@ int main() {
 
 
         checkEqual(resultNTT1,resultNormal1,get_N());
-        /*checkEqual(resultNTT2,resultNormal2,get_N());*/
         checkEqual(resultNTT3,resultNormal3,get_N());
 
 
-        printf("The time spent with normal multiplication is %fs\n"
-               "Time spent with NTT multiplication is %fs\n", time_spent_norm,time_spent_NTT);
+        printf("Normal multiplication: %fs      "
+               "NTT multiplication: %fs     ", time_spent_norm,time_spent_NTT);
 
         difference= (end_normal-begin_normal)/(end_NTT-begin_NTT);
         printf("The NTT multiplication is roughly %d times faster\n",difference);
 #if COUNTOPERATIONS==1
-        printf("Normal multiplication:\nMultiplications: %ld\nAdditions/subtractions: %ld\n"
-               "NTT multiplication:\nMultiplications: %ld\nAdditions/subtractions:%ld\n", Mult_Norm,AddSub_Norm,Mult_NTT,AddSub_NTT);
+        printf("Multiplication:\nNormal: %lld        NTT: %ld       Normal:mult+adsub  %ld\n"
+               "Add/sub:\nNormal: %lld       NTT: %ld      NTT:mult+adsub  %ld\n",
+               Mult_Norm,Mult_NTT,Mult_Norm+AddSub_Norm,AddSub_Norm,AddSub_NTT,Mult_NTT+AddSub_NTT);
 
 #endif
         printf("\n");
 
+
+        }
     }
 
 

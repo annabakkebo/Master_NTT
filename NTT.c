@@ -69,7 +69,7 @@ void splitting(long *pol, long n, long w){
         pol[i]=(pol[i]+a)%Q;
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;
-        AddSub_NTT+=1;
+        AddSub_NTT+=2;
 #endif
     }
     //printf("\n");

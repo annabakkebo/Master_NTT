@@ -36,17 +36,20 @@ long f(long i, long j, long n) {
  * @author Anna Bakkebø
  */
 void step_multiplied_NTT(long *pol1, long *pol2, long *result,long w, long n){
+    //int multiplications = 0;
     for (long i = 0; i < n; i++) {
         for (long j = 0; j < n; j++) {
             long pos2 = f(i, j, n);
             if (j + pos2 >= n) {
                 result[i] = (result[i] - w * pol1[j] * pol2[pos2]) % Q;
+                //multiplications+=2;
 #if COUNTOPERATIONS==1
                 Mult_NTT+=2;
                 AddSub_NTT+=1;
 #endif
             } else {
                 result[i] = (result[i] + pol1[j] * pol2[pos2]) % Q;
+                //multiplications+=1;
 #if COUNTOPERATIONS==1
                 Mult_NTT+=1;
                 AddSub_NTT+=1;
@@ -54,20 +57,13 @@ void step_multiplied_NTT(long *pol1, long *pol2, long *result,long w, long n){
             }
         }
     }
+    //printf("Mult: %d ",multiplications);
 }
 
 void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long sizeofpol, long amountofpol){
     long j=0;
+    //printf("number of polynomials: %ld",amountofpol);
     for(long i=0;i<amountofpol;i++){
-        /*printf("Multiplying {");
-        for(int k=0;k<sizeofpol;k++){
-            printf("%d, ", (pol1+j)[k]);
-        }
-        printf("} with {");
-        for(int k=0;k<sizeofpol;k++){
-            printf("%d, ", (pol2+j)[k]);
-        }
-        printf("} using %d\n",roots[i]);*/
         step_multiplied_NTT(pol1+j,pol2+j,result+j,roots[i],sizeofpol);
         j+=sizeofpol;
     }

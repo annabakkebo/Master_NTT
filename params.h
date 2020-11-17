@@ -13,7 +13,7 @@
 #define INNVERSE_POWER_OF_TWO 6145// the inverse of 2
 
 #define NUM_POLYNOMIALS (2*2*2*2*2*2*2*2*2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
-#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#define COUNTOPERATIONS 1// 0 for not counting and 1 for counting
 
 
 long roots[PRIMITIVE_N];
