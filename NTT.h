@@ -8,7 +8,6 @@
 
 #include "params.h"
 
-
 /**
  * Stores the roots of unity that is used for the forward splitting
  * @param roots List of roots of unity

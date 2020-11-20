@@ -12,6 +12,8 @@
 #include "multiplication.h"
 #include <time.h>
 #include <stdlib.h>
+#include "pbPlots/pbPlots.h"
+#include "pbPlots/supportLib.h"
 
 
 
@@ -82,8 +84,12 @@ int main() {
 
     int difference;
 
-    for(long i=4;i<10;i++){
-        for(long j=0;j<i;j++){
+    double xaxis[14]={0};
+    double yaxisNTT[14]={0};
+    double yaxisNormal[14]={0};
+
+    for(long i=3;i<17;i++){
+
 #if COUNTOPERATIONS==1
         Mult_Norm=0;
         AddSub_Norm=0;
@@ -91,7 +97,7 @@ int main() {
         AddSub_NTT=0;
 #endif
 
-        initiate(i,i-j);
+        initiate(i,i-1);
         printf("Levels: %ld     N: %ld\n",get_Level(),get_N());
 
         random_numb(pol1,N);
@@ -122,12 +128,15 @@ int main() {
 
         printf("Multiplying using NTT...\n");
         begin_NTT = clock();
-
+        //printf("first pol:");
         forward_NTT2(pol1,NTT_forward,0,0,get_Level(),get_N());
+        //printf("second pol:");
         forward_NTT2(pol2,NTT_forward,0,0,get_Level(),get_N());
         /*forward_NTT2(pol3,NTT_forward,0,0,get_Level(),get_N());
         forward_NTT2(pol4,NTT_forward,0,0,get_Level(),get_N());*/
+        //printf("third pol:");
         forward_NTT2(pol6,NTT_forward,0,0,get_Level(),get_N());
+        //printf("fourth pol:");
         forward_NTT2(pol7,NTT_forward,0,0,get_Level(),get_N());
 
         //begin_mult_NTT = clock();
@@ -161,9 +170,14 @@ int main() {
 
         difference= (end_normal-begin_normal)/(end_NTT-begin_NTT);
         printf("The NTT multiplication is roughly %d times faster\n",difference);
+        xaxis[i-3]=(double )i;
+        yaxisNTT[i-3]=log2((double)(end_NTT-begin_NTT));
+        yaxisNormal[i-3]=log2((double)(end_normal-begin_normal));
 #if COUNTOPERATIONS==1
-        printf("Multiplication:\nNormal: %lld        NTT: %ld       Normal:mult+adsub  %ld\n"
-               "Add/sub:\nNormal: %lld       NTT: %ld      NTT:mult+adsub  %ld\n",
+        printf("Multiplication:\n"
+               "Normal: %lld        NTT: %ld       Normal:mult+adsub  %lld\n"
+               "Add/sub:                                                  \n"
+               "Normal: %lld       NTT: %ld      NTT:mult+adsub  %ld            \n",
                Mult_Norm,Mult_NTT,Mult_Norm+AddSub_Norm,AddSub_Norm,AddSub_NTT,Mult_NTT+AddSub_NTT);
 
 #endif
@@ -171,7 +185,52 @@ int main() {
 
 
         }
-    }
+    ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
+    series1->xs = xaxis;
+    series1->xsLength = 14;
+    series1->ys = yaxisNTT;
+    series1->ysLength = 14;
+    series1->linearInterpolation = true;
+    /*series1->lineType = L"dashed";
+    series1->lineTypeLength = wcslen(series1->lineType);*/
+    series1->lineThickness = 2;
+    series1->color = GetGray(0.9);
+
+    ScatterPlotSeries *series2 = GetDefaultScatterPlotSeriesSettings();
+    series2->xs = xaxis;
+    series2->xsLength = 14;
+    series2->ys = yaxisNormal;
+    series2->ysLength = 14;
+    series2->linearInterpolation = true;
+    /*series2->lineType = L"dashed";
+    series2->lineTypeLength = wcslen(series1->lineType);*/
+    series2->lineThickness = 2;
+    series2->color = GetGray(0.2);
+
+    ScatterPlotSettings *settings = GetDefaultScatterPlotSettings();
+    settings->width = 600;
+    settings->height = 400;
+    settings->autoBoundaries = true;
+    settings->autoPadding = true;
+    settings->title = L"green - normal mult \nblack - NTT mult";
+    settings->titleLength = wcslen(settings->title);
+    settings->xLabel = L"X axis";
+    settings->xLabelLength = wcslen(settings->xLabel);
+    settings->yLabel = L"Y axis";
+    settings->yLabelLength = wcslen(settings->yLabel);
+
+    ScatterPlotSeries *s1 [] = {series1, series2};
+    settings->scatterPlotSeries = s1;
+    settings->scatterPlotSeriesLength = 2;
+
+    RGBABitmapImageReference *canvasReference = CreateRGBABitmapImageReference();
+    DrawScatterPlotFromSettings(canvasReference, settings);
+
+    size_t length;
+    double *pngdata = ConvertToPNG(&length, canvasReference->image);
+    WriteToFile(pngdata, length, "example2.png");
+    DeleteImage(canvasReference->image);
+
 
 
     return 0;

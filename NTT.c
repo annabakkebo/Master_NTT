@@ -9,6 +9,7 @@
 #include "multiplication.h"
 
 
+
 void printarray(long *array, long n)
 {
     printf("{");
