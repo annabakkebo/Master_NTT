@@ -71,6 +71,8 @@ void splitting(long *pol, long n, long w){
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;
         AddSub_NTT+=2;
+        mult_NTT_forward+=1;
+        addsub_NTT_forward+=2;
 #endif
     }
     //printf("\n");
@@ -94,6 +96,8 @@ void merging(long * pol, long n, long w){
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;
         AddSub_NTT+=2;
+        mult_NTT_inverse+=1;
+        addsub_NTT_inverse+=2;
 #endif
     }
 
@@ -126,7 +130,7 @@ void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long level
     start++;
     if(move==0){
         //printarray(pol,n);
-        //printf("Performing splitting mod %d\n This belongs to the %dth level\n \n \n  The polnomial ends up being:",NTT_forward[0],start-1);
+        //printf("Performing splitting mod %d\n This belongs to the %dth level\n \n   The polnomial ends up being:",NTT_forward[0],start-1);
         splitting(pol,n/2,NTT_forward[0]);
         //printarray(pol,n);
         forward_NTT2(pol, NTT_forward+1, 1, start, levels,  n/2);
@@ -175,6 +179,7 @@ void innverse_finnish(long *pol,int inverse){
         pol[i]=(pol[i]*inverse)%Q;
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;
+        mult_NTT_inverse+=1;
 #endif
     }
 }

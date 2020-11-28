@@ -108,4 +108,12 @@ long long AddSub_Norm=0;
 
 long Mult_NTT=0;
 long AddSub_NTT=0;
+
+long mult_NTT_forward=0;
+long mult_NTT_inverse=0;
+long mult_NTT_multiplication=0;
+
+long addsub_NTT_forward=0;
+long addsub_NTT_inverse=0;
+long addsub_NTT_multiplication=0;
 #endif

@@ -88,16 +88,23 @@ int main() {
     double yaxisNTT[14]={0};
     double yaxisNormal[14]={0};
 
-    for(long i=3;i<17;i++){
+    for(long i=0;i<5;i++){
 
 #if COUNTOPERATIONS==1
         Mult_Norm=0;
         AddSub_Norm=0;
         Mult_NTT=0;
         AddSub_NTT=0;
+
+        addsub_NTT_multiplication=0;
+        addsub_NTT_inverse=0;
+        addsub_NTT_forward=0;
+        mult_NTT_forward=0;
+        mult_NTT_multiplication=0;
+        mult_NTT_inverse=0;
 #endif
 
-        initiate(i,i-1);
+        initiate(10,10-i);
         printf("Levels: %ld     N: %ld\n",get_Level(),get_N());
 
         random_numb(pol1,N);
@@ -123,7 +130,7 @@ int main() {
 
         multiplied_normal(pol1,pol2,resultNormal1,get_N());
         /*multiplied_normal(pol3,pol4,resultNormal2,get_N());*/
-        multiplied_normal(pol6,pol7,resultNormal3,get_N());
+        //multiplied_normal(pol6,pol7,resultNormal3,get_N());
         end_normal = clock();
 
         printf("Multiplying using NTT...\n");
@@ -135,25 +142,25 @@ int main() {
         /*forward_NTT2(pol3,NTT_forward,0,0,get_Level(),get_N());
         forward_NTT2(pol4,NTT_forward,0,0,get_Level(),get_N());*/
         //printf("third pol:");
-        forward_NTT2(pol6,NTT_forward,0,0,get_Level(),get_N());
+        //forward_NTT2(pol6,NTT_forward,0,0,get_Level(),get_N());
         //printf("fourth pol:");
-        forward_NTT2(pol7,NTT_forward,0,0,get_Level(),get_N());
+        //forward_NTT2(pol7,NTT_forward,0,0,get_Level(),get_N());
 
         //begin_mult_NTT = clock();
 
         multiplied_NTT(pol1,pol2,resultNTT1,NTT_roots,get_sizeofpol(),get_num_polynomials());
         /*multiplied_NTT(pol3,pol4,resultNTT2,NTT_roots,get_sizeofpol(),get_num_polynomials());*/
-        multiplied_NTT(pol6,pol7,resultNTT3,NTT_roots,get_sizeofpol(),get_num_polynomials());
+        //multiplied_NTT(pol6,pol7,resultNTT3,NTT_roots,get_sizeofpol(),get_num_polynomials());
         //end_mult_NTT = clock();
 
         innverse_NTT2(resultNTT1,NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
         /*innverse_NTT2(resultNTT2,NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);*/
-        innverse_NTT2(resultNTT3,NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        //innverse_NTT2(resultNTT3,NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
 
 
         innverse_finnish(resultNTT1,inverses_power_of_two[get_Level()]);
         /*innverse_finnish(resultNTT2,inverses_power_of_two[get_Level()]);*/
-        innverse_finnish(resultNTT3,inverses_power_of_two[get_Level()]);
+        //innverse_finnish(resultNTT3,inverses_power_of_two[get_Level()]);
         end_NTT = clock();
 
         time_spent_norm = (double)(end_normal-begin_normal)/CLOCKS_PER_SEC;
@@ -162,7 +169,7 @@ int main() {
 
 
         checkEqual(resultNTT1,resultNormal1,get_N());
-        checkEqual(resultNTT3,resultNormal3,get_N());
+        //checkEqual(resultNTT3,resultNormal3,get_N());
 
 
         printf("Normal multiplication: %fs      "
@@ -171,65 +178,26 @@ int main() {
         difference= (end_normal-begin_normal)/(end_NTT-begin_NTT);
         printf("The NTT multiplication is roughly %d times faster\n",difference);
         xaxis[i-3]=(double )i;
-        yaxisNTT[i-3]=log2((double)(end_NTT-begin_NTT));
-        yaxisNormal[i-3]=log2((double)(end_normal-begin_normal));
+        yaxisNTT[i-3]+=((double)(end_NTT-begin_NTT)/2);
+        yaxisNormal[i-3]+=((double)(end_normal-begin_normal)/2);
 #if COUNTOPERATIONS==1
         printf("Multiplication:\n"
                "Normal: %lld        NTT: %ld       Normal:mult+adsub  %lld\n"
                "Add/sub:                                                  \n"
                "Normal: %lld       NTT: %ld      NTT:mult+adsub  %ld            \n",
                Mult_Norm,Mult_NTT,Mult_Norm+AddSub_Norm,AddSub_Norm,AddSub_NTT,Mult_NTT+AddSub_NTT);
+        printf("Multiplications :   "
+               "Forward: %ld        Multiplication: %ld         Inverse: %ld\n"
+               "Addition:           "
+               "Forward: %ld        Multiplication: %ld         Inverse: %ld\n",
+               mult_NTT_forward, mult_NTT_multiplication, mult_NTT_inverse,addsub_NTT_forward,addsub_NTT_multiplication,addsub_NTT_inverse);
 
 #endif
         printf("\n");
 
 
         }
-    ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
-    series1->xs = xaxis;
-    series1->xsLength = 14;
-    series1->ys = yaxisNTT;
-    series1->ysLength = 14;
-    series1->linearInterpolation = true;
-    /*series1->lineType = L"dashed";
-    series1->lineTypeLength = wcslen(series1->lineType);*/
-    series1->lineThickness = 2;
-    series1->color = GetGray(0.9);
 
-    ScatterPlotSeries *series2 = GetDefaultScatterPlotSeriesSettings();
-    series2->xs = xaxis;
-    series2->xsLength = 14;
-    series2->ys = yaxisNormal;
-    series2->ysLength = 14;
-    series2->linearInterpolation = true;
-    /*series2->lineType = L"dashed";
-    series2->lineTypeLength = wcslen(series1->lineType);*/
-    series2->lineThickness = 2;
-    series2->color = GetGray(0.2);
-
-    ScatterPlotSettings *settings = GetDefaultScatterPlotSettings();
-    settings->width = 600;
-    settings->height = 400;
-    settings->autoBoundaries = true;
-    settings->autoPadding = true;
-    settings->title = L"green - normal mult \nblack - NTT mult";
-    settings->titleLength = wcslen(settings->title);
-    settings->xLabel = L"X axis";
-    settings->xLabelLength = wcslen(settings->xLabel);
-    settings->yLabel = L"Y axis";
-    settings->yLabelLength = wcslen(settings->yLabel);
-
-    ScatterPlotSeries *s1 [] = {series1, series2};
-    settings->scatterPlotSeries = s1;
-    settings->scatterPlotSeriesLength = 2;
-
-    RGBABitmapImageReference *canvasReference = CreateRGBABitmapImageReference();
-    DrawScatterPlotFromSettings(canvasReference, settings);
-
-    size_t length;
-    double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "example2.png");
-    DeleteImage(canvasReference->image);
 
 
 

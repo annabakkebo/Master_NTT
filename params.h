@@ -13,7 +13,7 @@
 #define INNVERSE_POWER_OF_TWO 6145// the inverse of 2
 
 #define NUM_POLYNOMIALS (2*2*2*2*2*2*2*2*2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
-#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#define COUNTOPERATIONS 1// 0 for not counting and 1 for counting
 
 
 long roots[PRIMITIVE_N];
@@ -57,6 +57,14 @@ long long AddSub_Norm;
 
 long Mult_NTT;
 long AddSub_NTT;
+
+long mult_NTT_forward;
+long mult_NTT_inverse;
+long mult_NTT_multiplication;
+
+long addsub_NTT_forward;
+long addsub_NTT_inverse;
+long addsub_NTT_multiplication;
 #endif
 
 #endif //NTT_PARAMS_H
