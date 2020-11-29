@@ -10,10 +10,11 @@
 #include "params.h"
 #include "NTT.h"
 #include "multiplication.h"
-#include <time.h>
 #include <stdlib.h>
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
+#include "speed/speed.h"
+#include "speed/cpucycles.h"
 
 
 /**
@@ -88,25 +89,28 @@ int main() {
     long resultNTT3[N] = {0}; //where the result of pol6 * pol7 will be stored using NTT multiplication
     srand(time(NULL));
 
-    clock_t begin_normal; //start time for the normal multiplication
-    clock_t end_normal; // end time for the normal multiplication
-    clock_t begin_NTT; // start time for NTT multiplication
+    unsigned long long begin_normal; //start time for the normal multiplication
+    unsigned long long end_normal; // end time for the normal multiplication
+    unsigned long long begin_NTT; // start time for NTT multiplication
     //clock_t begin_mult_NTT = clock();
     //clock_t end_mult_NTT = clock();
-    clock_t end_NTT = clock(); //end time for NTT multiplication
+    unsigned long long end_NTT; //end time for NTT multiplication
 
-    double time_spent_norm; // time spent during normal multiplication
-    double time_spent_NTT; // time spent during NTT multiplication
+    long long time_spent_norm; // time spent during normal multiplication
+    long long time_spent_NTT; // time spent during NTT multiplication
     double time_spent_mult_NTT;
 
     int difference; //how much faster the NTT time was compared to normal multiplication
+
+    unsigned long long timing_overhead;
+    timing_overhead= cpucycles_overhead();
 
     double xaxis[14] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
     int timestesting = 2; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
     for (int j = 0; j < timestesting; j++) {
-        for (long i = 3; i < 17; i++) {
+        for (long i = 2; i < 16; i++) {
 
 #if COUNTOPERATIONS == 1
             Mult_Norm=0;
@@ -137,15 +141,15 @@ int main() {
             }
 
             printf("Multiplying the ''Normal way''...   ");
-            begin_normal = clock();
+            begin_normal = cpucycles_start();
 
             multiplied_normal(pol1, pol2, resultNormal1, get_N());
             /*multiplied_normal(pol3,pol4,resultNormal2,get_N());*/
             multiplied_normal(pol6, pol7, resultNormal3, get_N());
-            end_normal = clock();
+            end_normal = cpucycles_stop();
 
             printf("Multiplying using NTT...\n");
-            begin_NTT = clock();
+            begin_NTT = cpucycles_start();
             //printf("first pol:");
             forward_NTT(pol1, NTT_forward, 0, 0, get_Level(), get_N());
             //printf("second pol:");
@@ -172,10 +176,10 @@ int main() {
             inverse_finnish(resultNTT1, inverses_power_of_two[get_Level()]);
             /*inverse_finnish(resultNTT2,inverses_power_of_two[get_Level()]);*/
             inverse_finnish(resultNTT3, inverses_power_of_two[get_Level()]);
-            end_NTT = clock();
+            end_NTT = cpucycles_stop();
 
-            time_spent_norm = (double) (end_normal - begin_normal) / CLOCKS_PER_SEC;
-            time_spent_NTT = (double) (end_NTT - begin_NTT) / CLOCKS_PER_SEC;
+            time_spent_norm =  (end_normal - begin_normal-timing_overhead) ;
+            time_spent_NTT =  (end_NTT - begin_NTT-timing_overhead) ;
             //time_spent_mult_NTT = (double)(end_mult_NTT-begin_mult_NTT)/CLOCKS_PER_SEC;
 
 
@@ -183,14 +187,14 @@ int main() {
             checkEqual(resultNTT3, resultNormal3, get_N());
 
 
-            printf("Normal multiplication: %fs      "
-                   "NTT multiplication: %fs     ", time_spent_norm, time_spent_NTT);
+            printf("Normal multiplication: %lld      "
+                   "NTT multiplication: %lld     ", time_spent_norm, time_spent_NTT);
 
             difference = (end_normal - begin_normal) / (end_NTT - begin_NTT);
             printf("The NTT multiplication is roughly %d times faster\n", difference);
-            xaxis[i - 3] = (double) i;
-            yaxisNTT[i - 3] += (double) (end_NTT - begin_NTT) / 2;
-            yaxisNormal[i - 3] += (double) (end_normal - begin_normal) / 2;
+            xaxis[i - 2] = (double) i;
+            yaxisNTT[i - 2] += (double) (end_NTT - begin_NTT) / 2;
+            yaxisNormal[i - 2] += (double) (end_normal - begin_normal) / 2;
 #if COUNTOPERATIONS == 1
             printf("Multiplication:\n"
                    "Normal: %lld        NTT: %ld       Normal:mult+adsub  %lld\n"
