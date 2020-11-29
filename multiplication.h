@@ -30,16 +30,13 @@ void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long size
  */
 void multiplied_normal(long *pol1, long *pol2,long *result, long n);
 
-/**
- * Updates pol1 to be the multiplication of pol1 and pol2 when the modulos polynomial is just a random polynomial
- * @param pol1 The first polynomial that is to be multiplied
- * @param pol2  The second polynomial that is to be multiplied
- * @param modpol The polynomial that the multiplication is reduced modulo
- * @param n The degree of the modulos polynomial
- * @author Anna Bakkebø
- */
-void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);
 
+/**
+ * Returns the value base^power
+ * @param base value of the base
+ * @param power value of the power
+ * @return base^power
+ */
 long lpow(long base, long power);
 
 #endif //NTT_MULTIPLICATION_H

@@ -87,7 +87,7 @@ int main() {
     double xaxis[14]={0};
     double yaxisNTT[14]={0};
     double yaxisNormal[14]={0};
-    int timestesting = 10;
+    int timestesting = 20;
     for(int j=0;j<timestesting;j++){
     for(long i=3;i<17;i++){
 
@@ -238,7 +238,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot5.png");
+    WriteToFile(pngdata, length, "plot6.png");
     DeleteImage(canvasReference->image);
 
 

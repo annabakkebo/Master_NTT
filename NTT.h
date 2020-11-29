@@ -43,8 +43,8 @@ long NTT_roots[NUM_POLYNOMIALS];
  * @param stop how many levels the forward NTT should be
  * @author Anna Bakkebø
  * @date 8.11.20
- */
-void forward_NTT(long *pol, long i,long  n,long m, long * roots, long start, long stop);
+ *//*
+void forward_NTT(long *pol, long i,long  n,long m, long * roots, long start, long stop);*/
 
 /**
  * Computes forward NTT

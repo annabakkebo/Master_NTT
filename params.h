@@ -23,11 +23,26 @@ long roots[PRIMITIVE_N];
  */
 void load_roots(long *roots);
 
-
+/**
+ * Set the level. This function checks that the level is below the maximum amount of levels and sets the level.
+ * If it is over the maximum amount of levels, the level is set to max.
+ * @param level number of how many levels you want
+ */
 void load_level(long level);
+/**
+ * Returns the value of the level that is set
+ * @return level
+ */
 long get_Level();
 
+/**
+ * refreshes the number of polynomials at the lowest level to fit the current level and N
+ */
 void load_num_polynomials();
+/**
+ * Returns number of polynomials at the lowest level
+ * @return number of polynomials at the lowest level
+ */
 long get_num_polynomials();
 
 long inverses_power_of_two[LEVEL+1];
@@ -36,15 +51,33 @@ long inverses_power_of_two[LEVEL+1];
  * @param inverses list where the inverses_power_of_two will be stored
  */
 void load_inverses(long *inverses);
+/**
+ * prints the list of inverses
+ */
 void print_inverses();
-
+/**
+ * Returns the value of N. I.e. the degree of the polynomial
+ * @return N
+ */
 long get_N();
+/**
+ * Updates the size of N. Has restriction that N can not be bigger the maximum N defined.
+ * @param power N=2^power
+ */
 void set_N(long power);
-
+/**
+ * Returns the degree the polynomials at the lowest level is
+ * @return degree of polynomials at lowest level
+ */
 long get_sizeofpol();
-
+/**
+ * Returns how many steps should be moved when going through the list for inverse NTT
+ * @return move
+ */
 long get_move();
-
+/**
+ * Loads the size of the polynomials at the lowest level, as well as the move value that is used for inverse NTT
+ */
 void load_size_of_pol_move();
 
 /**

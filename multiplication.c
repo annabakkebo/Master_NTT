@@ -102,4 +102,3 @@ long lpow(long base, long power){
     return result;
 }
 
-void multiplied_rand(long *pol1, long *pol2, long *modpol, long n);
