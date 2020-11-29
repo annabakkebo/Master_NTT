@@ -1,3 +1,6 @@
+//
+// Retrieved from https://github.com/InductiveComputerScience/pbPlots
+//
 #include "supportLib.h"
 
 unsigned char *DoubleArrayToByteArray(double *data, size_t length){

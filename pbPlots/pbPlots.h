@@ -1,3 +1,6 @@
+//
+// Retrieved from https://github.com/InductiveComputerScience/pbPlots
+//
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>

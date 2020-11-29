@@ -1,5 +1,7 @@
 /* Downloaded from https://repo.progsbase.com - Code Developed Using progsbase. */
-
+//
+// Retrieved from https://github.com/InductiveComputerScience/pbPlots
+//
 #include "pbPlots.h"
 
 #define strparam(str) (str), wcslen(str)
