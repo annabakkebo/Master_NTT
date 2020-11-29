@@ -87,7 +87,8 @@ int main() {
     double xaxis[14]={0};
     double yaxisNTT[14]={0};
     double yaxisNormal[14]={0};
-
+    int timestesting = 10;
+    for(int j=0;j<timestesting;j++){
     for(long i=3;i<17;i++){
 
 #if COUNTOPERATIONS==1
@@ -171,8 +172,8 @@ int main() {
         difference= (end_normal-begin_normal)/(end_NTT-begin_NTT);
         printf("The NTT multiplication is roughly %d times faster\n",difference);
         xaxis[i-3]=(double )i;
-        yaxisNTT[i-3]=log2((double)(end_NTT-begin_NTT));
-        yaxisNormal[i-3]=log2((double)(end_normal-begin_normal));
+        yaxisNTT[i-3]+=(double)(end_NTT-begin_NTT)/2;
+        yaxisNormal[i-3]+=(double)(end_normal-begin_normal)/2;
 #if COUNTOPERATIONS==1
         printf("Multiplication:\n"
                "Normal: %lld        NTT: %ld       Normal:mult+adsub  %lld\n"
@@ -184,7 +185,16 @@ int main() {
         printf("\n");
 
 
-        }
+        }}
+
+
+    printf("\n\n");
+    printf("");
+    for(int i= 0;i<14;i++){
+        yaxisNTT[i]=log2(yaxisNTT[i]/timestesting);
+        yaxisNormal[i]=log2(yaxisNormal[i]/timestesting);
+        printf("$2^{%lf}$ & $2^{%lf}$ & $2^{%lf}$ \\\\ \\hline \n",xaxis[i],yaxisNormal[i],yaxisNTT[i]);
+    }
     ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
     series1->xs = xaxis;
     series1->xsLength = 14;
@@ -212,11 +222,11 @@ int main() {
     settings->height = 400;
     settings->autoBoundaries = true;
     settings->autoPadding = true;
-    settings->title = L"green - normal mult \nblack - NTT mult";
+    settings->title = L"grey - normal mult    black - NTT mult";
     settings->titleLength = wcslen(settings->title);
-    settings->xLabel = L"X axis";
+    settings->xLabel = L"2^Y";
     settings->xLabelLength = wcslen(settings->xLabel);
-    settings->yLabel = L"Y axis";
+    settings->yLabel = L"2^X";
     settings->yLabelLength = wcslen(settings->yLabel);
 
     ScatterPlotSeries *s1 [] = {series1, series2};
@@ -228,7 +238,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "example2.png");
+    WriteToFile(pngdata, length, "plot5.png");
     DeleteImage(canvasReference->image);
 
 
