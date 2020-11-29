@@ -104,7 +104,7 @@ int main() {
     double xaxis[14] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting = 2; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
+    int timestesting = 20; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
     for (int j = 0; j < timestesting; j++) {
         for (long i = 3; i < 17; i++) {
 
@@ -118,13 +118,14 @@ int main() {
             initiate(i, i - 1);
             printf("Levels: %ld     N: %ld\n", get_Level(), get_N());
 
-            random_numb(pol1, N);
-            random_numb(pol2, N);
+            random_numb(pol1, N); // set pol1 to a random polynomial
+            random_numb(pol2, N);// set pol2 to a random polynomial
             /*random_numb(pol3,N);
             random_numb(pol4,N);*/
-            random_numb(pol6, N);
-            random_numb(pol7, N);
+            random_numb(pol6, N);// set pol6 to a random polynomial
+            random_numb(pol7, N);// set pol7 to a random polynomial
 
+            //sets the results to be the 0-polynomial
             for (int j = 0; j < N; j++) {
                 resultNormal1[j] = 0;
                 resultNTT1[j] = 0;
