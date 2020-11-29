@@ -104,7 +104,7 @@ int main() {
     double xaxis[14] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting = 20; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
+    int timestesting = 2; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
     for (int j = 0; j < timestesting; j++) {
         for (long i = 3; i < 17; i++) {
 
@@ -256,7 +256,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot6.png");
+    WriteToFile(pngdata, length, "plot7.png");
     DeleteImage(canvasReference->image);
 
 

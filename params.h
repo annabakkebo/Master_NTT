@@ -7,14 +7,39 @@
 
 #define N (4096*2*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
+#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#if Q==12289
 #define ROOT_OF_UNITY 41 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 4096 //to what power the root of unity is 1
 #define LEVEL 11 // maximum amount of levels
 #define INNVERSE_POWER_OF_TWO 6145// the inverse of 2
 
 #define NUM_POLYNOMIALS (2*2*2*2*2*2*2*2*2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
-#define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#endif
+#if Q==4993
+#define ROOT_OF_UNITY 66 // the PRIMITIVE_N th root of unity
+#define PRIMITIVE_N 128 //to what power the root of unity is 1
+#define LEVEL 6 // maximum amount of levels
+#define INNVERSE_POWER_OF_TWO 2497// the inverse of 2
 
+#define NUM_POLYNOMIALS 64// number of polynomials in the LEVELth level ie 2^LEVEL
+#endif
+#if Q==2753
+#define ROOT_OF_UNITY 6 // the PRIMITIVE_N th root of unity
+#define PRIMITIVE_N 64 //to what power the root of unity is 1
+#define LEVEL 5 // maximum amount of levels
+#define INNVERSE_POWER_OF_TWO 1377// the inverse of 2
+
+#define NUM_POLYNOMIALS 32// number of polynomials in the LEVELth level ie 2^LEVEL
+#endif
+#if Q==769
+#define ROOT_OF_UNITY 7 // the PRIMITIVE_N th root of unity
+#define PRIMITIVE_N 256 //to what power the root of unity is 1
+#define LEVEL 7 // maximum amount of levels
+#define INNVERSE_POWER_OF_TWO 385// the inverse of 2
+
+#define NUM_POLYNOMIALS 128// number of polynomials in the LEVELth level ie 2^LEVEL
+#endif
 
 long roots[PRIMITIVE_N];
 /**
