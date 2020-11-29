@@ -5,6 +5,9 @@
 #ifndef NTT_NTT_H
 #define NTT_NTT_H
 
+
+#include "params.h"
+
 /**
  * Stores the roots of unity that is used for the forward splitting
  * @param roots List of roots of unity
@@ -15,12 +18,18 @@
  * @param start The level where it is started
  * @param stop  How many levels the splitting should be
  */
-void initiate_NTT_forward(int *roots, int *NTT_forward, int n, int move, bool direction , int start, int  stop);
+void initiate_NTT_forward(long *roots, long *NTT_forward, long n, long move, bool direction , long start, long  stop);
 
-void initiate_NTT_roots(int *NTT_forward, int level, int *NTT_roots);
+/**
+ * Creates list of roots that the multiplication will do modulo when doing multiplication after NTTforward
+ * @param NTT_forward The NTT_forward list
+ * @param level How many levels that will be computed
+ * @param NTT_roots The list where the roots will be stored
+ */
+void initiate_NTT_roots(long *NTT_forward, long level, long *NTT_roots);
 
-int NTT_forward[32];
-int NTT_roots[16];
+long NTT_forward[NUM_POLYNOMIALS*2];
+long NTT_roots[NUM_POLYNOMIALS];
 
 /**
  * Computes the forward NTT. This doesn´t work as of 8.11.20
@@ -35,7 +44,7 @@ int NTT_roots[16];
  * @author Anna Bakkebø
  * @date 8.11.20
  */
-void forward_NTT(int *pol, int i,int  n,int m, int * roots, int start, int stop);
+void forward_NTT(long *pol, long i,long  n,long m, long * roots, long start, long stop);
 
 /**
  * Computes forward NTT
@@ -46,7 +55,7 @@ void forward_NTT(int *pol, int i,int  n,int m, int * roots, int start, int stop)
  * @param levels  how many levels the NTT will be performed
  * @param n  The length of the polynomial that will be splitted
  */
-void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, int n);
+void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long levels, long n);
 
 /**
  * Computes inverse NTT
@@ -58,10 +67,25 @@ void forward_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, in
  * @param levels how many levels that will be performed
  * @param n Twice the length of each of the small polynomial
  */
-void innverse_NTT2(int *pol, int *NTT_forward,int move, int start, int levels, int n);
+void innverse_NTT2(long *pol, long *NTT_forward,long move, long start, long levels, long n);
 void inverse_NTT();
 
-void innverse_finnish(int *pol);
+/**
+ * Multiplying by the innverse of 2^LEVEL
+ * @param pol The polynomial right after the innverse_NTT2 to finnish the inverse algorithm
+ * @param inverse The innverse of the power of two
+ */
+void innverse_finnish(long *pol, int inverse);
+
+/**
+ * printing the NTTroots variable
+ */
+void printNTTRoots();
+
+/**
+ * printing the NTT_forward variable
+ */
+void printNTT_Forward();
 
 void printNTT_Forward();
 void printNTTRoots();
