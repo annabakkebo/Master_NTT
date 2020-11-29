@@ -99,16 +99,16 @@ void merging(long * pol, long n, long w){
 
 }
 
-void forward_NTT(long *pol,long  i,long  n,long  m, long *roots, long start, long stop){
+/*void forward_NTT(long *pol,long  i,long  n,long  m, long *roots, long start, long stop){
     if(start==stop){
         return;
     }
     else{
-        /*for (int j = 0; j < n; j++) {
+        *//*for (int j = 0; j < n; j++) {
             int a = pol[j + n] * roots[i];
             pol[n + j] = pol[j] - a;
             pol[j] = pol[j] + a;
-        }*/
+        }*//*
         splitting(pol, n, roots[i]);
         //printf("performing splitting mod %d\n",roots[i]);
     }
@@ -117,9 +117,9 @@ void forward_NTT(long *pol,long  i,long  n,long  m, long *roots, long start, lon
     n=n/2;
     forward_NTT(pol, i,n,m,roots, current, stop);
     forward_NTT(pol+n*2, i+m/4, n, m, roots, current, stop);
-}
+}*/
 
-void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long levels, long n){
+void forward_NTT(long *pol, long *NTT_forward, long move, long start, long levels, long n){
     if(start==levels){
         return;
     }
@@ -129,7 +129,7 @@ void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long level
         //printf("Performing splitting mod %d\n This belongs to the %dth level\n \n \n  The polnomial ends up being:",NTT_forward[0],start-1);
         splitting(pol,n/2,NTT_forward[0]);
         //printarray(pol,n);
-        forward_NTT2(pol, NTT_forward+1, 1, start, levels,  n/2);
+        forward_NTT(pol, NTT_forward + 1, 1, start, levels, n / 2);
 
     }
     else{
@@ -140,12 +140,12 @@ void forward_NTT2(long *pol, long *NTT_forward,long move, long start, long level
         }
         //printf("This belong to the %dth level\n", start-1);
         //printarray(pol,move*n);
-        forward_NTT2(pol, NTT_forward+move, move, start, levels,  n/2);
+        forward_NTT(pol, NTT_forward + move, move, start, levels, n / 2);
     }
 
 }
 
-void innverse_NTT2(long *pol, long *NTT_forward,long move, long start, long levels, long n){
+void inverse_NTT(long *pol, long *NTT_forward, long move, long start, long levels, long n){
     if(start==levels){
         return;
     }
@@ -167,10 +167,10 @@ void innverse_NTT2(long *pol, long *NTT_forward,long move, long start, long leve
     //printf("performing the %dth level of NTT innverse\n",start);
     move=move/2;
     start++;
-    innverse_NTT2(pol, NTT_forward-move,move, start, levels,  n*2);
+    inverse_NTT(pol, NTT_forward - move, move, start, levels, n * 2);
 }
 
-void innverse_finnish(long *pol,int inverse){
+void inverse_finnish(long *pol, int inverse){
     for(long i=0; i<get_N(); i++){
         pol[i]=(pol[i]*inverse)%Q;
 #if COUNTOPERATIONS==1
