@@ -99,25 +99,6 @@ void merging(long * pol, long n, long w){
 
 }
 
-/*void forward_NTT(long *pol,long  i,long  n,long  m, long *roots, long start, long stop){
-    if(start==stop){
-        return;
-    }
-    else{
-        *//*for (int j = 0; j < n; j++) {
-            int a = pol[j + n] * roots[i];
-            pol[n + j] = pol[j] - a;
-            pol[j] = pol[j] + a;
-        }*//*
-        splitting(pol, n, roots[i]);
-        //printf("performing splitting mod %d\n",roots[i]);
-    }
-    long current=start+1;
-    i=i/2;
-    n=n/2;
-    forward_NTT(pol, i,n,m,roots, current, stop);
-    forward_NTT(pol+n*2, i+m/4, n, m, roots, current, stop);
-}*/
 
 void forward_NTT(long *pol, long *NTT_forward, long move, long start, long levels, long n){
     if(start==levels){
@@ -144,6 +125,9 @@ void forward_NTT(long *pol, long *NTT_forward, long move, long start, long level
     }
 
 }
+void forward_NTT2(struct pol *polynomial, long *NTT_forward, long move, long start, long levels, long n){
+    forward_NTT(polynomial->coeffs,NTT_forward,move,start,levels,n);
+}
 
 void inverse_NTT(long *pol, long *NTT_forward, long move, long start, long levels, long n){
     if(start==levels){
@@ -169,6 +153,9 @@ void inverse_NTT(long *pol, long *NTT_forward, long move, long start, long level
     start++;
     inverse_NTT(pol, NTT_forward - move, move, start, levels, n * 2);
 }
+void inverse_NTT2(struct pol *polynomial, long *NTT_forward, long move, long start, long levels, long n){
+    inverse_NTT(polynomial->coeffs,  NTT_forward, move, start,  levels,  n);
+}
 
 void inverse_finnish(long *pol, int inverse){
     for(long i=0; i<get_N(); i++){
@@ -177,6 +164,9 @@ void inverse_finnish(long *pol, int inverse){
         Mult_NTT+=1;
 #endif
     }
+}
+void inverse_finnish2(struct pol *polynomial, int inverse){
+    inverse_finnish(polynomial->coeffs,inverse);
 }
 
 void printNTTRoots(){

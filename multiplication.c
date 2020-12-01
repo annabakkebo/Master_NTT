@@ -68,7 +68,9 @@ void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long size
         j+=sizeofpol;
     }
 }
-
+void multiplied_NTT2(struct pol *ppol1, struct pol *ppol2, struct pol *presult, long* roots, long sizeofpol, long amountofpol){
+    multiplied_NTT(ppol1->coeffs,ppol2->coeffs,presult->coeffs,roots,sizeofpol,amountofpol);
+}
 
 void multiplied_normal(long *pol1, long *pol2,long *result, long n){
     for (long i = 0; i < n; i++) {
@@ -91,6 +93,9 @@ void multiplied_normal(long *pol1, long *pol2,long *result, long n){
             }
         }
     }
+}
+void multiplied_normal2(struct pol *pol1, struct pol *pol2,struct pol *result, long n){
+    multiplied_normal(pol1->coeffs,pol2->coeffs,result->coeffs,n);
 }
 
 

@@ -109,6 +109,11 @@ void load_size_of_pol_move();
  * printing the list of roots of unity
  */
 void print_roots();
+
+
+struct pol{
+    long coeffs[N]; //coefficients of the polynomials
+};
 #if COUNTOPERATIONS==1
 long long Mult_Norm;
 long long AddSub_Norm;
