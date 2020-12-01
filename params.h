@@ -8,6 +8,11 @@
 #define N (4096*2*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
+#define K 10 //width of commitment matrices
+#define L 2 //height of the commitment matric A_1
+#define D 4 //dimension of the message space
+
+
 #if Q==12289
 #define ROOT_OF_UNITY 41 // the PRIMITIVE_N th root of unity
 #define PRIMITIVE_N 4096 //to what power the root of unity is 1
@@ -114,6 +119,14 @@ void print_roots();
 struct pol{
     long coeffs[N]; //coefficients of the polynomials
 };
+
+struct A_1{
+    struct pol pol[D][K]; //polynomials in A_1
+};
+struct A_2{
+    struct pol pol[L][K];
+};
+
 #if COUNTOPERATIONS==1
 long long Mult_Norm;
 long long AddSub_Norm;
