@@ -1,0 +1,96 @@
+//
+// Created by Anna Bakkebø on 05/12/2020.
+//
+
+#ifndef NTT_MATRIXMULTIPLICATION_H
+#define NTT_MATRIXMULTIPLICATION_H
+#include "params.h"
+
+/**
+ * Computes A_1 times randomness,
+ * <p style="text-indent:40px;">A_1 = [ I<sub>D</sub> &emsp; A_1_marked],</p>
+ * and randomness is a vector of length K, using normal multiplication
+ * @param A_1_marked D times K-D vector used as the last part of the A_1 vector
+ * @param randomness vector of length K
+ */
+void matrixTimesVectorNormalA_1(struct A_1_marked *A_1_marked, struct randomness_vector_K *randomness);
+/**
+ * Computes A_2 times randomness, where
+ * <p style="text-indent:40px;">A_2 = [0<sup>(LxD)</sup> &emsp; I<sub>L</sub> &emsp; A_2_marked],</p>
+ * and randomness is a vector of length K, using normal multiplication
+ * @param A_2_marked L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness vector of length K
+ */
+void matrixTimesVectorNormalA_2(struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness);
+/**
+ * Commits the message m by computing
+ *
+ * <table style="margin-left:40px;">
+   <tbody>
+      <tr>
+      <td>[A_1] <br> [A_2]</td>
+      <td> * r + </td>
+      <td> [0<sup>D</sup>]<br> [m] </td>
+      </tr>
+   </tbody>
+   </table>
+ * Using normal multiplication
+ * @param A_1_marked D times K-D vector used as the last part of the A_1 vector
+ * @param A_2_marked L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness randomnessvector r of length K
+ * @param message message m of length L
+ */
+void commitNormal(struct A_1_marked *A_1_marked,struct A_2_marked *A_2_marked,struct randomness_vector_K *randomness, struct message_vector_L *message);
+
+
+
+/**
+ * Computes NTT forward of all the polynomials in the matrices and vector
+ * @param A_1_marked D times (K-D) matrix
+ * @param A_2_marked L times (K-D-L) matrix
+ * @param randomness vector of length K
+ */
+void forwardNTT_matrices_vector(struct A_1_marked *A_1_marked, struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness);
+/**
+ * Computes A_1 times randomness, where
+ * <p style="text-indent:40px;">A_1 = [ I<sub>D</sub> &emsp; A_1_marked],</p>
+ * and randomness is a vector of length K, using NTT multiplication
+ * @param A_1_marked D times K-D vector used as the last part of the A_1 vector in NTT version
+ * @param randomness vector of length K in NTT version
+ */
+void matrixTimesVectorNTTA_1(struct A_1_marked *A_1_marked, struct randomness_vector_K *randomness);
+/**
+ * Computes A_2 times randomness, where
+ * <p style="text-indent:40px;">A_2 = [0<sup>(LxD)</sup> &emsp; I<sub>L</sub> &emsp; A_2_marked],</p>
+ * and randomness is a vector of length K, using NTT multiplication
+ * @param A_2_marked L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness vector of length K in NTT version
+ */
+void matrixTimesVectorNTTA_2(struct A_1_marked *A_1_marked, struct randomness_vector_K *randomness);
+/**
+ * Inverse NTT of a vector with length D+L
+ * @param vector Vector of length D+L in NTT version
+ */
+void inverseNTT_vectorDL(struct comitment_vector_DL *vector);
+/**
+ * Commits the message m by computing
+ *
+ * <table style="margin-left:40px;">
+   <tbody>
+      <tr>
+      <td>[A_1] <br> [A_2]</td>
+      <td> * r + </td>
+      <td> [0<sup>D</sup>]<br> [m] </td>
+      </tr>
+   </tbody>
+   </table>
+ * Using NTT multiplication
+ * @param A_1_marked D times K-D vector used as the last part of the A_1 vector
+ * @param A_2_marked L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness randomnessvector r of length K
+ * @param message message m of length L
+ */
+void commitNTT(struct A_1_marked *A_1_marked,struct A_2_marked *A_2_marked,struct randomness_vector_K *randomness, struct message_vector_L *message);
+
+
+#endif //NTT_MATRIXMULTIPLICATION_H

@@ -52,7 +52,6 @@ void multiplied_normal(long *pol1, long *pol2,long *result, long n);
  */
 void multiplied_normal2(struct pol *pol1, struct pol *pol2,struct pol *result, long n);
 
-
 /**
  * Returns the value base^power
  * @param base value of the base
@@ -60,5 +59,7 @@ void multiplied_normal2(struct pol *pol1, struct pol *pol2,struct pol *result, l
  * @return base^power
  */
 long lpow(long base, long power);
+
+void matrix_multiplication_normal();
 
 #endif //NTT_MULTIPLICATION_H

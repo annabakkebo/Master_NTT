@@ -120,11 +120,20 @@ struct pol{
     long coeffs[N]; //coefficients of the polynomials
 };
 
-struct A_1{
-    struct pol pol[D][K]; //polynomials in A_1
+struct A_1_marked{
+    struct pol A[D][K-D]; //polynomials in A_1, width:K-D, height:D
 };
-struct A_2{
-    struct pol pol[L][K];
+struct A_2_marked{
+    struct pol A[L][K-D-L]; //polynomials in A_2, width: K-D-L, height:L
+};
+struct message_vector_L{
+    struct pol pol[L]; // vector of polynomials in message with size L
+};
+struct randomness_vector_K{
+    struct pol pol[K]; // vector with the randomness polynomials with size K
+};
+struct comitment_vector_DL{
+    struct pol pol[D+L];
 };
 
 #if COUNTOPERATIONS==1
