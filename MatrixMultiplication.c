@@ -22,19 +22,19 @@ struct pol multiplyRowByVectorNormal(struct pol *row, struct pol *vector, int si
     struct pol zeropol;
     for(int i = 0; i < size; i++){
         struct pol step_result = zeropol;
-        //printf("multiplying ");
+       /* //printf("multiplying ");
         //printpolynomial(row[i]);
         //printf(" with ");
         //printpolynomial(vector[i]);
         //printf("before multiplication");
-        //printpolynomial(step_result);
+        //printpolynomial(step_result);*/
         multiplied_normal2(&row[i],&vector[i],&step_result,get_N());
-        //printf("Resulting in ");
-        //printpolynomial(step_result);
+        /*//printf("Resulting in ");
+        //printpolynomial(step_result);*/
         result = addPolynomials(result, step_result, get_N());
-        //printf("Added together it ends up being");
+        /*//printf("Added together it ends up being");
         //printpolynomial(result);
-        //printf("\n");
+        //printf("\n");*/
     }
     return result;
 }
@@ -45,13 +45,13 @@ void matrixTimesVectorNormalA_1(struct A_1_marked A_1_marked, struct randomness_
     for(int i=0; i< D;i++){
         struct pol step_result;
         step_result= multiplyRowByVectorNormal(A_1_marked.pol[i], randomness.pol+D, K - D);
-        //printf("step_result:");
+        /*//printf("step_result:");
         //printpolynomial(step_result);
         //printf("Then we are adding ");
-        //printpolynomial(randomness.pol[i]);
+        //printpolynomial(randomness.pol[i]);*/
         step_result=addPolynomials(step_result,randomness.pol[i],get_N());
-        //printpolynomial(step_result);
-        //printf("Now storing it in the %d component of commit\n",i);
+        /*//printpolynomial(step_result);
+        //printf("Now storing it in the %d component of commit\n",i);*/
         commit->pol[i]=step_result;
         //printpolynomial(commit->pol[i]);
     }
@@ -162,14 +162,41 @@ void matrixTimesVectorNTTA_2(struct A_2_marked A_2_marked, struct randomness_vec
 
 void commitNTT(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struct randomness_vector_K randomness,
                struct message_vector_L message, struct comitment_vector_DL *commit) {
+    /*printf("A_1");
+    for(int i=0;i<D;i++){
+        for(int j=0;j<(K-D);j++) {
+            printpolynomial(A_1_marked.pol[i][j]);
+        }printf("\n");
+    }
+    printf("A_2");
+    for(int i=0;i<L;i++){
+        for(int j=0;j<(K-D-L);j++) {
+            printpolynomial(A_2_marked.pol[i][j]);
+        }printf("\n");
+    }*/
     forwardNTT_matrices_vector(&A_1_marked,&A_2_marked,&randomness);
+    /*printf("A_1");
+    for(int i=0;i<D;i++){
+        for(int j=0;j<(K-D);j++) {
+            printpolynomial(A_1_marked.pol[i][j]);
+        }printf("\n");
+    }
+    printf("A_2");
+    for(int i=0;i<L;i++){
+        for(int j=0;j<(K-D-L);j++) {
+            printpolynomial(A_2_marked.pol[i][j]);
+        }printf("\n");
+    }*/
     //matrixTimesVectorNTTA_1(A_1_marked,randomness,commit);
     matrixTimesVectorNTTA_2(A_2_marked,randomness,commit);
-    /*printf("commitment after matrix multiplication\n");
-    for(int i=0;i<D+L;i++){
+    printf("commitment after matrix multiplication\n");
+    /*for(int i=0;i<D+L;i++){
         printpolynomial(commit->pol[i]);
     }*/
     inverseNTT_commitmentvectorDL(commit);
+    /*for(int i=0;i<D+L;i++){
+        printpolynomial(commit->pol[i]);
+    }*/
     /*for(int i=0; i<D; i++){
         commit->pol[i+L]=addPolynomials(commit->pol[i],message.pol[i],get_N());
     }*/

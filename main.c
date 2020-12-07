@@ -80,7 +80,7 @@ void initiate(long power, long level) {
 
 
 int main() {
-    initiate(1,1);
+    initiate(2,1);
 
     srand(time(NULL));
     struct A_1_marked A_1;
@@ -171,8 +171,19 @@ int main() {
     struct pol resultNormal3; //where the result of pol6 * pol7 will be stored using normal multiplication
     struct pol resultNTT3; //where the result of pol6 * pol7 will be stored using NTT multiplication
 
+    printf("Checking multiplication works: ");
+    struct pol pol1;
+    random_numb(pol1.coeffs, get_N());
+    struct pol pol2;
+    random_numb(pol2.coeffs, get_N());
 
-
+    multiplied_normal2(&pol1,&pol2,&resultNormal1,get_N());
+    printpolynomial(resultNormal1);
+    forward_NTT2(&pol1,NTT_forward,0,0,get_Level(),get_N());
+    forward_NTT2(&pol2,NTT_forward,0,0,get_Level(),get_N());
+    multiplied_NTT2(&pol1,&pol2,&resultNTT1,NTT_roots,get_sizeofpol(),get_num_polynomials());
+    inverse_NTT2(&resultNTT1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
+    printpolynomial(resultNTT1);
 
 
 
