@@ -62,7 +62,7 @@ void initiate_NTT_roots(long *NTT_forward, long level, long *NTT_roots){
  * @author Anna Bakkebø
  */
 void splitting(long *pol, long n, long w){
-
+    //printf("Root used for splitting: %ld\n",w);
     long a;
     for(long i=0; i<n; i++){
         a = pol[i+n]*w;//printf("%d, ",pol[i]);
@@ -90,7 +90,7 @@ void merging(long * pol, long n, long w){
     for (long i =0; i < n; i++){
         a = pol[i]+pol[n+i];
         pol[n+i]= ((pol[n+i]-pol[i])*w)%Q;
-        pol[i]=a;
+        pol[i]=a%Q;
 #if COUNTOPERATIONS==1
         Mult_NTT+=1;
         AddSub_NTT+=2;
@@ -137,10 +137,12 @@ void inverse_NTT(long *pol, long *NTT_forward, long move, long start, long level
     long i=move-1;
     //printf("Working on the %dth level:\n",start);
     for(long j=0;j<move;j++){
-        //printf("Merging ");
-        //printarray(pol+j*n,n);
-        //printf(" using %d\n",NTT_forward[i]);
+        /*printf("Merging ");
+        printarray(pol+j*n,n);
+        printf(" using %d\n",NTT_forward[i]);*/
         merging(pol+j*n,n/2,NTT_forward[i]);
+        /*printf("Resulting in");
+        printarray(pol+j*n,n);*/
         i=i-1;
     }
     /*printf("Resulting in {");

@@ -115,4 +115,9 @@ void commitNTT(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struc
                struct message_vector_L message, struct comitment_vector_DL *commit);
 
 
+
+
+struct pol multiplyRowByVectorNTT(struct pol *row, struct pol *vector, int size);
+struct pol multiplyRowByVectorNormal(struct pol *row, struct pol *vector, int size);
+
 #endif //NTT_MATRIXMULTIPLICATION_H

@@ -64,6 +64,7 @@ void multiplied_NTT(long *pol1, long *pol2, long *result, long* roots, long size
     long j=0;
     //printf("number of polynomials: %ld",amountofpol);
     for(long i=0;i<amountofpol;i++){
+        //printf("root used %ld",roots[i]);
         step_multiplied_NTT(pol1+j,pol2+j,result+j,roots[i],sizeofpol);
         j+=sizeofpol;
     }

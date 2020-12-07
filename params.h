@@ -45,6 +45,14 @@
 
 #define NUM_POLYNOMIALS 128// number of polynomials in the LEVELth level ie 2^LEVEL
 #endif
+#if Q==17
+#define ROOT_OF_UNITY 3 // the PRIMITIVE_N th root of unity
+#define PRIMITIVE_N 16 //to what power the root of unity is 1
+#define LEVEL 3 // maximum amount of levels
+#define INNVERSE_POWER_OF_TWO 9// the inverse of 2
+
+#define NUM_POLYNOMIALS (2*2*2)// number of polynomials in the LEVELth level ie 2^LEVEL
+#endif
 
 long roots[PRIMITIVE_N];
 /**

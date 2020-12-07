@@ -166,12 +166,13 @@ int main() {
         printpolynomial(c1.pol[i]);
     }
 
+    /*initiate(2,1);
     struct pol resultNormal1; //where the result of pol1 * pol2 will be stored using normal multiplication
     struct pol resultNTT1; //where the result of pol1 * pol2 will be stored using NTT multiplication
     struct pol resultNormal3; //where the result of pol6 * pol7 will be stored using normal multiplication
     struct pol resultNTT3; //where the result of pol6 * pol7 will be stored using NTT multiplication
 
-    printf("Checking multiplication works: ");
+    printf("Checking multiplication works:\n ");
     struct pol pol1;
     random_numb(pol1.coeffs, get_N());
     struct pol pol2;
@@ -190,24 +191,128 @@ int main() {
     forward_NTT2(&pol1,NTT_forward,0,0,get_Level(),get_N());
     forward_NTT2(&pol2,NTT_forward,0,0,get_Level(),get_N());
     multiplied_NTT2(&pol1,&pol2,&resultNTT1,NTT_roots,get_sizeofpol(),get_num_polynomials());
-    inverse_NTT2(&resultNTT1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
+    inverse_NTT2(&resultNTT1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol()*2);
     inverse_finnish2(&resultNTT1,inverses_power_of_two[get_Level()]);
-    printpolynomial(resultNTT1);
+    printpolynomial(resultNTT1);*/
+/*
+    printf("Checking multiply row by vector");
 
-    printf("Checking forward and inverse\n");
-    printpolynomial(pol1);
-    forward_NTT2(&pol1,NTT_forward,0,0,get_Level(),get_N());
-    inverse_NTT2(&pol1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
-    inverse_finnish2(&pol1,inverses_power_of_two[get_Level()]);
-    printpolynomial(pol1);
-    printf("Checking forward and inverse\n");
-    printpolynomial(pol1);
-    forward_NTT(pol1.coeffs,NTT_forward,0,0,get_Level(),get_N());
-    inverse_NTT(pol1.coeffs,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
-    inverse_finnish(pol1.coeffs,inverses_power_of_two[get_Level()]);
-    printpolynomial(pol1);
+    struct pol row[K];
+    struct pol vector[K];
+    for(int i =0;i<K;i++){
+        struct pol rowpol;
+        random_numb(rowpol.coeffs, get_N());
+        struct pol vectorpol;
+        random_numb(vectorpol.coeffs, get_N());
+        row[i]=rowpol;
+        vector[i]=vectorpol;
+    }
+    printf("row: \n");
+    for(int i=0;i<K;i++){
+        printpolynomial(row[i]);
+    }
+    printf("vector:\n");
+    for(int i=0;i<K;i++){
+        printpolynomial(vector[i]);
+    }
+    struct pol normalResult = multiplyRowByVectorNormal(row,vector,K);
+    printpolynomial(normalResult);printf("\n\n");
+    for(int i=0;i<K;i++){
+        forward_NTT2(&row[i],NTT_forward,0,0,get_Level(),get_N());
+        forward_NTT2(&vector[i],NTT_forward,0,0,get_Level(),get_N());
+    }
+    printf("row: \n");
+    for(int i=0;i<K;i++){
+        printpolynomial(row[i]);
+    }
+    printf("vector:\n");
+    for(int i=0;i<K;i++){
+        printpolynomial(vector[i]);
+    }
+    struct pol NTTResult = multiplyRowByVectorNTT(row,vector,K);
+    printpolynomial(NTTResult);
+    for(int i=0;i<K;i++){
+        inverse_NTT2(&NTTResult, NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        inverse_finnish2(&NTTResult,inverses_power_of_two[get_Level()]);
+    }
+
+    printpolynomial(NTTResult);
+    for(int i=0;i<K;i++){
+        inverse_NTT2(&row[i], NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        inverse_finnish2(&row[i],inverses_power_of_two[get_Level()]);
+        inverse_NTT2(&vector[i], NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        inverse_finnish2(&vector[i],inverses_power_of_two[get_Level()]);
+    }
+    printf("row: \n");
+    for(int i=0;i<K;i++){
+        printpolynomial(row[i]);
+    }
+    printf("vector:\n");
+    for(int i=0;i<K;i++){
+        printpolynomial(vector[i]);
+    }
+
+    printf("Trying to figure out where it goes wrongly\n");
+    struct pol zeropol;
+    for(int i=0;i<get_N();i++){
+        zeropol.coeffs[i]=0;
+    }
+    struct pol result=zeropol;
+    for(int i=0; i<K;i++){
+        struct pol step_result=zeropol;
+        multiplied_normal2(&row[i],&vector[i],&step_result,get_N());
+        printf("+");
+        printpolynomial(step_result);
+        result=addPolynomials(result,step_result,get_N());
+    }
+    printpolynomial(result);
 
 
+    printf("Using multiplyRowByVectorNormal\n");
+    printpolynomial(multiplyRowByVectorNormal(row,vector,K));
+
+    printf("NTT");
+    result=zeropol;
+    for(int i=0;i<K;i++){
+        forward_NTT2(&row[i],NTT_forward,0,0,get_Level(),get_N());
+        forward_NTT2(&vector[i],NTT_forward,0,0,get_Level(),get_N());
+    }
+    *//*printf("row: \n");
+    for(int i=0;i<K;i++){
+        printpolynomial(row[i]);
+    }
+    printf("vector:\n");
+    for(int i=0;i<K;i++){
+        printpolynomial(vector[i]);
+    }*//*
+    *//*for(int i=0; i<K;i++){
+        struct pol step_result=zeropol;
+        multiplied_NTT2(&row[i],&vector[i],&step_result,NTT_roots, get_sizeofpol(),get_num_polynomials());
+        printpolynomial(step_result);
+        inverse_NTT2(&step_result, NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        inverse_finnish2(&step_result,inverses_power_of_two[get_Level()]);
+        printf("+");
+        printpolynomial(step_result);
+        result=addPolynomials(result,step_result,get_N());
+    }
+    printpolynomial(result);*//*
+
+    printf("NTT2\n");
+    result=zeropol;
+    for(int i=0; i<K;i++){
+        struct pol step_result=zeropol;
+        multiplied_NTT2(&row[i],&vector[i],&step_result,NTT_roots, get_sizeofpol(),get_num_polynomials());
+        printf("+");
+        printpolynomial(step_result);
+        result=addPolynomials(result,step_result,get_N());
+    }
+    printpolynomial(result);
+    for(int i=0;i<1;i++){
+        inverse_NTT2(&result, NTT_forward+get_move()-1,get_move(),0,get_Level(),get_sizeofpol()*2);
+        inverse_finnish2(&result,inverses_power_of_two[get_Level()]);
+    }
+    printpolynomial(result);
+    printpolynomial(multiplyRowByVectorNTT(row,vector,K));*/
 
     return 0;
 }
