@@ -102,6 +102,15 @@ void print_roots(){
     }
     printf("}\n");
 }
+
+
+void printpolynomial(struct pol pol){
+    printf("{ ");
+    for(int i=0;i<get_N();i++)
+        printf("%ld,  ", pol.coeffs[i]);
+    printf("} \n");
+}
+
 #if COUNTOPERATIONS==1
 long long Mult_Norm=0;
 long long AddSub_Norm=0;

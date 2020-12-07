@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
+#include "MatrixMultiplication.h"
 
 
 /**
@@ -77,198 +78,103 @@ void initiate(long power, long level) {
     load_size_of_pol_move();
 }
 
+
 int main() {
+    initiate(1,1);
 
-    /*long pol1[N] = {0}; // polynomial that will be multiplied with pol2
-    long pol2[N] = {0}; // polynomial that will be multiplied with pol1
-    long pol6[N] = {0}; // polynomial that will be multiplied with pol7
-    long pol7[N] = {0}; // polynomial that will be multiplied with pol6
-    long resultNormal1[N] = {0}; //where the result of pol1 * pol2 will be stored using normal multiplication
-    long resultNTT1[N] = {0}; //where the result of pol1 * pol2 will be stored using NTT multiplication
-    long resultNormal3[N] = {0}; //where the result of pol6 * pol7 will be stored using normal multiplication
-    long resultNTT3[N] = {0}; //where the result of pol6 * pol7 will be stored using NTT multiplication*/
+    srand(time(NULL));
+    struct A_1_marked A_1;
+    for(int i=0;i<D;i++){
+        for(int j=0;j<(K-D);j++) {
+            struct pol pol1;
+            random_numb(pol1.coeffs, get_N());
+            A_1.pol[i][j] = pol1;
+        }
+    }
 
-    struct pol pol1; // polynomial that will be multiplied with pol2
-    struct pol pol2; // polynomial that will be multiplied with pol1
-    struct pol pol6; // polynomial that will be multiplied with pol7
-    struct pol pol7; // polynomial that will be multiplied with pol6
+    struct A_2_marked A_2;
+    for(int i=0;i<L;i++){
+        for(int j=0;j<(K-D-L);j++) {
+            struct pol pol1;
+            random_numb(pol1.coeffs, get_N());
+            A_2.pol[i][j] = pol1;
+        }
+    }
+
+    printf("A_1");
+    for(int i=0;i<D;i++){
+        for(int j=0;j<(K-D);j++) {
+            printpolynomial(A_1.pol[i][j]);
+        }printf("\n");
+    }
+    printf("A_2");
+    for(int i=0;i<L;i++){
+        for(int j=0;j<(K-D-L);j++) {
+            printpolynomial(A_2.pol[i][j]);
+        }printf("\n");
+    }
+
+    struct randomness_vector_K r;
+    for(int i=0;i<K;i++){
+        struct pol pol1;
+        random_numb(pol1.coeffs, get_N());
+        r.pol[i] = pol1;
+    }
+    printf("r: ");
+    for(int i=0;i<K;i++){
+        printpolynomial(r.pol[i]);
+    }printf("\n");
+    struct comitment_vector_DL c1;
+    struct comitment_vector_DL c2;
+    printf("The commitment, c1, before committing \n");
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c1.pol[i]);
+    }
+    printf("The commitment, c2, before committing \n");
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c2.pol[i]);
+    }
+    struct message_vector_L m;
+    for(int i=0;i<L;i++){
+        struct pol pol1;
+        random_numb(pol1.coeffs, get_N());
+        m.pol[i] = pol1;
+    }
+
+
+    /*matrixTimesVectorNormalA_1(A_1, r, &c);
+    matrixTimesVectorNormalA_2(A_2, r, &c);
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c.pol[i]);
+    }
+    for(int i=0;i< L;i++){
+        c.pol[i+L]=addPolynomials(c.pol[i],m.pol[i],get_N());
+    }*/
+    printf("The commitment is \n");
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c1.pol[i]);
+    }
+
+    commitNormal(A_1,A_2,r,m,&c2);
+    printf("The commitment using normal is \n");
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c2.pol[i]);
+    }
+    commitNTT(A_1,A_2,r,m,&c1);
+    printf("The commitment using NTT is \n");
+    for(int i=0;i< D+L;i++){
+        printpolynomial(c1.pol[i]);
+    }
+
     struct pol resultNormal1; //where the result of pol1 * pol2 will be stored using normal multiplication
     struct pol resultNTT1; //where the result of pol1 * pol2 will be stored using NTT multiplication
     struct pol resultNormal3; //where the result of pol6 * pol7 will be stored using normal multiplication
     struct pol resultNTT3; //where the result of pol6 * pol7 will be stored using NTT multiplication
 
-    struct pol *ppol1 = &pol1; // polynomial that will be multiplied with pol2
-    struct pol *ppol2=&pol2; // polynomial that will be multiplied with pol1
-    struct pol *ppol6=&pol6; // polynomial that will be multiplied with pol7
-    struct pol *ppol7=&pol7; // polynomial that will be multiplied with pol6
-    struct pol *presultNormal1=&resultNormal1; //where the result of pol1 * pol2 will be stored using normal multiplication
-    struct pol *presultNTT1=&resultNTT1; //where the result of pol1 * pol2 will be stored using NTT multiplication
-    struct pol *presultNormal3=&resultNormal3; //where the result of pol6 * pol7 will be stored using normal multiplication
-    struct pol *presultNTT3=&resultNTT3; //where the result of pol6 * pol7 will be stored using NTT multiplication
-    srand(time(NULL));
-
-    clock_t begin_normal; //start time for the normal multiplication
-    clock_t end_normal; // end time for the normal multiplication
-    clock_t begin_NTT; // start time for NTT multiplication
-    //clock_t begin_mult_NTT = clock();
-    //clock_t end_mult_NTT = clock();
-    clock_t end_NTT = clock(); //end time for NTT multiplication
-
-    double time_spent_norm; // time spent during normal multiplication
-    double time_spent_NTT; // time spent during NTT multiplication
-    double time_spent_mult_NTT;
-
-    int difference; //how much faster the NTT time was compared to normal multiplication
-
-    double xaxis[14] = {0}; //where the values for the x-axis will be stored
-    double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
-    double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting = 2; //how many times the multiplication should be tested. The higher the value the more accurat expectant value we get
-    for (int j = 0; j < timestesting; j++) {
-        for (long i = 3; i < 12; i++) {
-
-#if COUNTOPERATIONS == 1
-            Mult_Norm=0;
-            AddSub_Norm=0;
-            Mult_NTT=0;
-            AddSub_NTT=0;
-#endif
-
-            initiate(i, i - 1);
-            printf("Levels: %ld     N: %ld\n", get_Level(), get_N());
-
-            random_numb(pol1.coeffs, N); // set pol1 to a random polynomial
-            random_numb(pol2.coeffs, N);// set pol2 to a random polynomial
-            /*random_numb(pol3,N);
-            random_numb(pol4,N);*/
-            random_numb(pol6.coeffs, N);// set pol6 to a random polynomial
-            random_numb(pol7.coeffs, N);// set pol7 to a random polynomial
-
-            //sets the results to be the 0-polynomial
-            for (int j = 0; j < N; j++) {
-                resultNormal1.coeffs[j] = 0;
-                resultNTT1.coeffs[j] = 0;
-
-                /*resultNormal2[j]=0;
-                resultNTT2[j]=0;*/
-
-                resultNormal3.coeffs[j] = 0;
-                resultNTT3.coeffs[j] = 0;
-            }
-
-            printf("Multiplying the ''Normal way''...   ");
-            begin_normal = clock();
-
-            multiplied_normal2(ppol1, ppol2, presultNormal1, get_N());
-            multiplied_normal2(ppol6, ppol7, presultNormal3, get_N());
-            end_normal = clock();
-
-            printf("Multiplying using NTT...\n");
-            begin_NTT = clock();
-            forward_NTT2(ppol1, NTT_forward, 0, 0, get_Level(), get_N());
-            forward_NTT2(ppol2, NTT_forward, 0, 0, get_Level(), get_N());
-            forward_NTT2(ppol6, NTT_forward, 0, 0, get_Level(), get_N());
-            forward_NTT2(ppol7, NTT_forward, 0, 0, get_Level(), get_N());
-
-            //begin_mult_NTT = clock();
-
-            multiplied_NTT2(ppol1, ppol2, presultNTT1, NTT_roots, get_sizeofpol(), get_num_polynomials());
-            multiplied_NTT2(ppol6, ppol7, presultNTT3, NTT_roots, get_sizeofpol(), get_num_polynomials());
-            //end_mult_NTT = clock();
-
-            inverse_NTT2(presultNTT1, NTT_forward + get_move() - 1, get_move(), 0, get_Level(), get_sizeofpol() * 2);
-            inverse_NTT2(presultNTT3, NTT_forward + get_move() - 1, get_move(), 0, get_Level(), get_sizeofpol() * 2);
-
-
-            inverse_finnish2(presultNTT1, inverses_power_of_two[get_Level()]);
-            inverse_finnish2(presultNTT3, inverses_power_of_two[get_Level()]);
-            end_NTT = clock();
-
-            time_spent_norm = (double) (end_normal - begin_normal) / CLOCKS_PER_SEC;
-            time_spent_NTT = (double) (end_NTT - begin_NTT) / CLOCKS_PER_SEC;
-            //time_spent_mult_NTT = (double)(end_mult_NTT-begin_mult_NTT)/CLOCKS_PER_SEC;
 
 
 
-            checkEqual(resultNTT1.coeffs, resultNormal1.coeffs, get_N());
-            checkEqual(resultNTT3.coeffs, resultNormal3.coeffs, get_N());
 
-
-            printf("Normal multiplication: %fs      "
-                   "NTT multiplication: %fs     ", time_spent_norm, time_spent_NTT);
-
-            difference = (end_normal - begin_normal) / (end_NTT - begin_NTT);
-            printf("The NTT multiplication is roughly %d times faster\n", difference);
-            xaxis[i - 3] = (double) i;
-            yaxisNTT[i - 3] += (double) (end_NTT - begin_NTT) / 2;
-            yaxisNormal[i - 3] += (double) (end_normal - begin_normal) / 2;
-#if COUNTOPERATIONS == 1
-            printf("Multiplication:\n"
-                   "Normal: %lld        NTT: %ld       Normal:mult+adsub  %lld\n"
-                   "Add/sub:                                                  \n"
-                   "Normal: %lld       NTT: %ld      NTT:mult+adsub  %ld            \n",
-                   Mult_Norm,Mult_NTT,Mult_Norm+AddSub_Norm,AddSub_Norm,AddSub_NTT,Mult_NTT+AddSub_NTT);
-
-#endif
-            printf("\n");
-
-
-        }
-    }
-
-
-    printf("\n\n");
-    printf("");
-    for (int i = 0; i < 9; i++) {
-        yaxisNTT[i] = log2(yaxisNTT[i] / timestesting);
-        yaxisNormal[i] = log2(yaxisNormal[i] / timestesting);
-        printf("$2^{%lf}$ & $2^{%lf}$ & $2^{%lf}$ \\\\ \\hline \n", xaxis[i], yaxisNormal[i], yaxisNTT[i]);
-    }
-    ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
-    series1->xs = xaxis;
-    series1->xsLength = 9;
-    series1->ys = yaxisNTT;
-    series1->ysLength = 9;
-    series1->linearInterpolation = true;
-    /*series1->lineType = L"dashed";
-    series1->lineTypeLength = wcslen(series1->lineType);*/
-    series1->lineThickness = 2;
-    series1->color = GetGray(0.9);
-
-    ScatterPlotSeries *series2 = GetDefaultScatterPlotSeriesSettings();
-    series2->xs = xaxis;
-    series2->xsLength = 9;
-    series2->ys = yaxisNormal;
-    series2->ysLength = 9;
-    series2->linearInterpolation = true;
-    /*series2->lineType = L"dashed";
-    series2->lineTypeLength = wcslen(series1->lineType);*/
-    series2->lineThickness = 2;
-    series2->color = GetGray(0.2);
-
-    ScatterPlotSettings *settings = GetDefaultScatterPlotSettings();
-    settings->width = 600;
-    settings->height = 400;
-    settings->autoBoundaries = true;
-    settings->autoPadding = true;
-    settings->title = L"grey - normal mult    black - NTT mult";
-    settings->titleLength = wcslen(settings->title);
-    settings->xLabel = L"2^Y";
-    settings->xLabelLength = wcslen(settings->xLabel);
-    settings->yLabel = L"2^X";
-    settings->yLabelLength = wcslen(settings->yLabel);
-
-    ScatterPlotSeries *s1[] = {series1, series2};
-    settings->scatterPlotSeries = s1;
-    settings->scatterPlotSeriesLength = 2;
-
-    RGBABitmapImageReference *canvasReference = CreateRGBABitmapImageReference();
-    DrawScatterPlotFromSettings(canvasReference, settings);
-
-    size_t length;
-    double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot10.png");
-    DeleteImage(canvasReference->image);
 
 
     return 0;

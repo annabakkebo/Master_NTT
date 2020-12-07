@@ -5,7 +5,7 @@
 #ifndef NTT_NTT_H
 #define NTT_NTT_H
 
-
+#include <stdbool.h>
 #include "params.h"
 
 /**

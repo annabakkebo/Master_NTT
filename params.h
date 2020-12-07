@@ -5,12 +5,12 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N (4096*2*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
+#define N (4096*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
-#define K 10 //width of commitment matrices
+#define K 6 //width of commitment matrices
 #define L 2 //height of the commitment matric A_1
-#define D 4 //dimension of the message space
+#define D 3 //dimension of the message space
 
 
 #if Q==12289
@@ -116,15 +116,17 @@ void load_size_of_pol_move();
 void print_roots();
 
 
+
 struct pol{
     long coeffs[N]; //coefficients of the polynomials
 };
+void printpolynomial(struct pol pol);
 
 struct A_1_marked{
-    struct pol A[D][K-D]; //polynomials in A_1, width:K-D, height:D
+    struct pol pol[D][K-D]; //polynomials in A_1, width:K-D, height:D
 };
 struct A_2_marked{
-    struct pol A[L][K-D-L]; //polynomials in A_2, width: K-D-L, height:L
+    struct pol pol[L][K-D-L]; //polynomials in A_2, width: K-D-L, height:L
 };
 struct message_vector_L{
     struct pol pol[L]; // vector of polynomials in message with size L
