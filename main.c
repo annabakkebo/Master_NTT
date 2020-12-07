@@ -177,14 +177,35 @@ int main() {
     struct pol pol2;
     random_numb(pol2.coeffs, get_N());
 
+    printf("Multiplying ");
+    printpolynomial(pol1);
+    printpolynomial(pol2);
+    printf("Using normal multiplication");
     multiplied_normal2(&pol1,&pol2,&resultNormal1,get_N());
     printpolynomial(resultNormal1);
+    printf("Multiplying ");
+    printpolynomial(pol1);
+    printpolynomial(pol2);
+    printf("Using NTT multiplication");
     forward_NTT2(&pol1,NTT_forward,0,0,get_Level(),get_N());
     forward_NTT2(&pol2,NTT_forward,0,0,get_Level(),get_N());
     multiplied_NTT2(&pol1,&pol2,&resultNTT1,NTT_roots,get_sizeofpol(),get_num_polynomials());
     inverse_NTT2(&resultNTT1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
+    inverse_finnish2(&resultNTT1,inverses_power_of_two[get_Level()]);
     printpolynomial(resultNTT1);
 
+    printf("Checking forward and inverse\n");
+    printpolynomial(pol1);
+    forward_NTT2(&pol1,NTT_forward,0,0,get_Level(),get_N());
+    inverse_NTT2(&pol1,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
+    inverse_finnish2(&pol1,inverses_power_of_two[get_Level()]);
+    printpolynomial(pol1);
+    printf("Checking forward and inverse\n");
+    printpolynomial(pol1);
+    forward_NTT(pol1.coeffs,NTT_forward,0,0,get_Level(),get_N());
+    inverse_NTT(pol1.coeffs,NTT_forward+get_move()-1, get_move(), 0, get_Level(),get_sizeofpol());
+    inverse_finnish(pol1.coeffs,inverses_power_of_two[get_Level()]);
+    printpolynomial(pol1);
 
 
 
