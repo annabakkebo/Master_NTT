@@ -8,8 +8,8 @@
 #define N (4096*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
-#define K 6 //width of commitment matrices
-#define L 2 //height of the commitment matric A_1
+#define K 8 //width of commitment matrices
+#define L 4 //height of the commitment matric A_1
 #define D 3 //dimension of the message space
 
 
