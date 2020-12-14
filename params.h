@@ -5,7 +5,7 @@
 #ifndef NTT_PARAMS_H
 #define NTT_PARAMS_H
 
-#define N (4096*2) // the degree of the modulos polynomial, X^N+1, Maximum N
+#define N (4096*2*2*2) // the degree of the modulos polynomial, X^N+1, Maximum N
 #define Q 12289 // the modulos
 #define COUNTOPERATIONS 0// 0 for not counting and 1 for counting
 #define K 8 //width of commitment matrices

@@ -83,84 +83,84 @@ int main() {
     initiate(10,3);
 
     srand(time(NULL));
-    struct A_1_marked A_1;
+    struct A_1_marked *A_1 = malloc(sizeof(struct A_1_marked));
     for(int i=0;i<D;i++){
         for(int j=0;j<(K-D);j++) {
             struct pol pol1;
             random_numb(pol1.coeffs, get_N());
-            A_1.pol[i][j] = pol1;
+            A_1->pol[i][j] = pol1;
         }
     }
 
-    struct A_2_marked A_2;
+    struct A_2_marked *A_2=malloc(sizeof(struct A_2_marked));
     for(int i=0;i<L;i++){
         for(int j=0;j<(K-D-L);j++) {
             struct pol pol1;
             random_numb(pol1.coeffs, get_N());
-            A_2.pol[i][j] = pol1;
+            A_2->pol[i][j] = pol1;
         }
     }
 
-    printf("A_1");
+    /*printf("A_1");
     for(int i=0;i<D;i++){
         for(int j=0;j<(K-D);j++) {
-            printpolynomial(A_1.pol[i][j]);
+            printpolynomial(A_1->pol[i][j]);
         }printf("\n");
     }
     printf("A_2");
     for(int i=0;i<L;i++){
         for(int j=0;j<(K-D-L);j++) {
-            printpolynomial(A_2.pol[i][j]);
+            printpolynomial(A_2->pol[i][j]);
         }printf("\n");
-    }
+    }*/
 
-    struct randomness_vector_K r;
+    struct randomness_vector_K *r = malloc(sizeof(struct randomness_vector_K));
     for(int i=0;i<K;i++){
         struct pol pol1;
         random_numb(pol1.coeffs, get_N());
-        r.pol[i] = pol1;
+        r->pol[i] = pol1;
     }
-    printf("r: ");
+    /*printf("r: ");
     for(int i=0;i<K;i++){
-        printpolynomial(r.pol[i]);
-    }printf("\n");
-    struct comitment_vector_DL c1;
-    struct comitment_vector_DL c2;
-    printf("The commitment, c1, before committing \n");
+        printpolynomial(r->pol[i]);
+    }printf("\n");*/
+    struct comitment_vector_DL *c1=malloc(sizeof(struct comitment_vector_DL));
+    struct comitment_vector_DL *c2=malloc(sizeof(struct comitment_vector_DL));
+    /*printf("The commitment, c1, before committing \n");
     for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
+        printpolynomial(c1->pol[i]);
     }
 
     printf("The commitment, c2, before committing \n");
     for(int i=0;i< D+L;i++){
-        printpolynomial(c2.pol[i]);
-    }
+        printpolynomial(c2->pol[i]);
+    }*/
 
-    struct message_vector_L m;
+    struct message_vector_L *m = malloc(sizeof(struct message_vector_L));
     for(int i=0;i<L;i++){
         struct pol pol1;
         random_numb(pol1.coeffs, get_N());
-        m.pol[i] = pol1;
+        m->pol[i] = pol1;
     }
 
-    printf("The commitment is \n");
+    /*printf("The commitment is \n");
     for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
+        printpolynomial(c1->pol[i]);
     }
 
-    commitNormal(A_1,A_2,r,m,&c2);
+    pcommitNormal(A_1,A_2,r,m,c2);
     printf("The commitment using normal is \n");
     for(int i=0;i< D+L;i++){
-        printpolynomial(c2.pol[i]);
+        printpolynomial(c2->pol[i]);
     }
-    commitNTT(A_1,A_2,r,m,&c1);
+    pcommitNTT(A_1,A_2,r,m,c1);
     printf("The commitment using NTT is \n");
     for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
+        printpolynomial(c1->pol[i]);
     }
     for(int i=0;i<D+L;i++){
-        checkEqual(c1.pol,c2.pol,get_N());
-    }
+        checkEqual(c1->pol,c2->pol,get_N());
+    }*/
 
     clock_t begin_normal; //start time for the normal multiplication
     clock_t end_normal; // end time for the normal multiplication
@@ -176,12 +176,12 @@ int main() {
 
     int difference; //how much faster the NTT time was compared to normal multiplication
 
-    double xaxis[12] = {0}; //where the values for the x-axis will be stored
-    double yaxisNTT[12] = {0}; // values corresponding to xaxis with running time for NTT multiplication
-    double yaxisNormal[12] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting=10;
+    double xaxis[14] = {0}; //where the values for the x-axis will be stored
+    double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
+    double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
+    int timestesting=6;
     for (int j = 0; j < timestesting; j++) {
-        for (long i = 2; i < 14; i++) {
+        for (long i = 2; i < 16; i++) {
 
 #if COUNTOPERATIONS == 1
             Mult_Norm=0;
@@ -196,36 +196,36 @@ int main() {
                 for(int j=0;j<(K-D);j++) {
                     struct pol pol1;
                     random_numb(pol1.coeffs, get_N());
-                    A_1.pol[i][j] = pol1;
+                    A_1->pol[i][j] = pol1;
                 }
             }
             for(int i=0;i<L;i++){
                 for(int j=0;j<(K-D-L);j++) {
                     struct pol pol1;
                     random_numb(pol1.coeffs, get_N());
-                    A_2.pol[i][j] = pol1;
+                    A_2->pol[i][j] = pol1;
                 }
             }
             for(int i=0;i<K;i++){
                 struct pol pol1;
                 random_numb(pol1.coeffs, get_N());
-                r.pol[i] = pol1;
+                r->pol[i] = pol1;
             }
             for(int i=0;i<L;i++){
                 struct pol pol1;
                 random_numb(pol1.coeffs, get_N());
-                m.pol[i] = pol1;
+                m->pol[i] = pol1;
             }
 
 
             printf("Committing the ''Normal way''...   ");
             begin_normal = clock();
-            commitNormal(A_1,A_2,r,m,&c2);
+            pcommitNormal(A_1,A_2,r,m,c2);
             end_normal = clock();
 
             printf("Committing using NTT...\n");
             begin_NTT = clock();
-            commitNTT(A_1,A_2,r,m,&c1);
+            pcommitNTT(A_1,A_2,r,m,c1);
 
             end_NTT = clock();
 
@@ -235,7 +235,7 @@ int main() {
 
 
             for(int i=0;i<D+L;i++){
-                checkEqual(c1.pol->coeffs,c2.pol->coeffs,get_N());
+                checkEqual(c1->pol->coeffs,c2->pol->coeffs,get_N());
             }
 
 
@@ -264,14 +264,14 @@ int main() {
 
     printf("\n\n");
     printf("");
-    FILE *f = fopen("plot16.txt", "w");
+    FILE *f = fopen("plot19.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
         exit(1);
     }
 
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 14; i++) {
         yaxisNTT[i] = log2(yaxisNTT[i] / timestesting);
         yaxisNormal[i] = log2(yaxisNormal[i] / timestesting);
         fprintf(f,"$2^{%lf}$ & $2^{%lf}$ & $2^{%lf}$ \\\\ \\hline \n", xaxis[i], yaxisNormal[i], yaxisNTT[i]);
@@ -281,9 +281,9 @@ int main() {
 
     ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
     series1->xs = xaxis;
-    series1->xsLength = 12;
+    series1->xsLength = 14;
     series1->ys = yaxisNTT;
-    series1->ysLength = 12;
+    series1->ysLength = 14;
     series1->linearInterpolation = true;
     /*series1->lineType = L"dashed";
     series1->lineTypeLength = wcslen(series1->lineType);*/
@@ -292,9 +292,9 @@ int main() {
 
     ScatterPlotSeries *series2 = GetDefaultScatterPlotSeriesSettings();
     series2->xs = xaxis;
-    series2->xsLength = 12;
+    series2->xsLength = 14;
     series2->ys = yaxisNormal;
-    series2->ysLength = 12;
+    series2->ysLength = 14;
     series2->linearInterpolation = true;
     /*series2->lineType = L"dashed";
     series2->lineTypeLength = wcslen(series1->lineType);*/
@@ -322,8 +322,12 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot16.png");
+    WriteToFile(pngdata, length, "plot19.png");
     DeleteImage(canvasReference->image);
 
+    free(A_2);
+    free(A_1);
+    free(m);
+    free(r);
     return 0;
 }
