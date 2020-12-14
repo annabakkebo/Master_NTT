@@ -101,40 +101,16 @@ int main() {
         }
     }
 
-    /*printf("A_1");
-    for(int i=0;i<D;i++){
-        for(int j=0;j<(K-D);j++) {
-            printpolynomial(A_1->pol[i][j]);
-        }printf("\n");
-    }
-    printf("A_2");
-    for(int i=0;i<L;i++){
-        for(int j=0;j<(K-D-L);j++) {
-            printpolynomial(A_2->pol[i][j]);
-        }printf("\n");
-    }*/
-
     struct randomness_vector_K *r = malloc(sizeof(struct randomness_vector_K));
     for(int i=0;i<K;i++){
         struct pol pol1;
         random_numb(pol1.coeffs, get_N());
         r->pol[i] = pol1;
     }
-    /*printf("r: ");
-    for(int i=0;i<K;i++){
-        printpolynomial(r->pol[i]);
-    }printf("\n");*/
+
     struct comitment_vector_DL *c1=malloc(sizeof(struct comitment_vector_DL));
     struct comitment_vector_DL *c2=malloc(sizeof(struct comitment_vector_DL));
-    /*printf("The commitment, c1, before committing \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1->pol[i]);
-    }
 
-    printf("The commitment, c2, before committing \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c2->pol[i]);
-    }*/
 
     struct message_vector_L *m = malloc(sizeof(struct message_vector_L));
     for(int i=0;i<L;i++){
@@ -143,30 +119,11 @@ int main() {
         m->pol[i] = pol1;
     }
 
-    /*printf("The commitment is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1->pol[i]);
-    }
-
-    pcommitNormal(A_1,A_2,r,m,c2);
-    printf("The commitment using normal is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c2->pol[i]);
-    }
-    pcommitNTT(A_1,A_2,r,m,c1);
-    printf("The commitment using NTT is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1->pol[i]);
-    }
-    for(int i=0;i<D+L;i++){
-        checkEqual(c1->pol,c2->pol,get_N());
-    }*/
 
     clock_t begin_normal; //start time for the normal multiplication
     clock_t end_normal; // end time for the normal multiplication
     clock_t begin_NTT; // start time for NTT multiplication
-    //clock_t begin_mult_NTT = clock();
-    //clock_t end_mult_NTT = clock();
+
     clock_t end_NTT = clock(); //end time for NTT multiplication
 
 
@@ -179,7 +136,7 @@ int main() {
     double xaxis[14] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[14] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[14] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting=6;
+    int timestesting=15; // How many times the testing of the
     for (int j = 0; j < timestesting; j++) {
         for (long i = 2; i < 16; i++) {
 
@@ -191,42 +148,41 @@ int main() {
 #endif
 
             initiate(i, i - 1);
-            printf("Levels: %ld     N: %ld\n", get_Level(), get_N());
+            printf("Levels: %ld     N: %ld\n", get_Level(), get_N()); //printing how many levels we are performing for forward NTT and the value of N used
             for(int i=0;i<D;i++){
                 for(int j=0;j<(K-D);j++) {
                     struct pol pol1;
                     random_numb(pol1.coeffs, get_N());
                     A_1->pol[i][j] = pol1;
                 }
-            }
+            }// adding random polynomials to the A_1 matrix
             for(int i=0;i<L;i++){
                 for(int j=0;j<(K-D-L);j++) {
                     struct pol pol1;
                     random_numb(pol1.coeffs, get_N());
                     A_2->pol[i][j] = pol1;
                 }
-            }
+            }// adding random polynomials to the A_2 matrix
             for(int i=0;i<K;i++){
                 struct pol pol1;
                 random_numb(pol1.coeffs, get_N());
                 r->pol[i] = pol1;
-            }
+            }// adding random polynomials to the r vector
             for(int i=0;i<L;i++){
                 struct pol pol1;
                 random_numb(pol1.coeffs, get_N());
                 m->pol[i] = pol1;
-            }
+            }// adding random polynomials to m vector
 
 
             printf("Committing the ''Normal way''...   ");
             begin_normal = clock();
-            pcommitNormal(A_1,A_2,r,m,c2);
+            pcommitNormal(A_1,A_2,r,m,c2); //Committing using normal multiplication
             end_normal = clock();
 
             printf("Committing using NTT...\n");
             begin_NTT = clock();
-            pcommitNTT(A_1,A_2,r,m,c1);
-
+            pcommitNTT(A_1,A_2,r,m,c1); // Committing using NTT multiplication
             end_NTT = clock();
 
             time_spent_norm = (double) (end_normal - begin_normal) / CLOCKS_PER_SEC;
@@ -264,7 +220,7 @@ int main() {
 
     printf("\n\n");
     printf("");
-    FILE *f = fopen("plot19.txt", "w");
+    FILE *f = fopen("plot21.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -322,7 +278,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot19.png");
+    WriteToFile(pngdata, length, "plot21.png");
     DeleteImage(canvasReference->image);
 
     free(A_2);
