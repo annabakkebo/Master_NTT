@@ -179,7 +179,7 @@ int main() {
     double xaxis[12] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[12] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[12] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting=10;
+    int timestesting=20;
     for (int j = 0; j < timestesting; j++) {
         for (long i = 2; i < 14; i++) {
 
@@ -264,7 +264,7 @@ int main() {
 
     printf("\n\n");
     printf("");
-    FILE *f = fopen("plot16.txt", "w");
+    FILE *f = fopen("plot16_doublecheck.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -322,7 +322,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot16.png");
+    WriteToFile(pngdata, length, "plot16_doublecheck.png");
     DeleteImage(canvasReference->image);
 
     return 0;
