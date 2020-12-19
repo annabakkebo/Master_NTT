@@ -28,23 +28,9 @@ void initiate_NTT_forward(long *roots, long *NTT_forward, long n, long move, boo
  */
 void initiate_NTT_roots(long *NTT_forward, long level, long *NTT_roots);
 
-long NTT_forward[NUM_POLYNOMIALS*2];
-long NTT_roots[NUM_POLYNOMIALS];
+long NTT_forward[NUM_POLYNOMIALS*2]; // Array of the roots of unity that will be used for forward NTT
+long NTT_roots[NUM_POLYNOMIALS]; // Array of roots of unity that is used at the lowest level
 
-/**
- * Computes the forward NTT. This doesn´t work as of 8.11.20
- *
- * @param pol polynomial that will be splitted
- * @param i half the degree that the primitive root of unity is raised to the powr of
- * @param n half the degree of the mod polynomial
- * @param m don't remember what this is used to
- * @param roots list of the primitive roots of unity
- * @param start the current level. Will be initiated at 0
- * @param stop how many levels the forward NTT should be
- * @author Anna Bakkebø
- * @date 8.11.20
- *//*
-void forward_NTT(long *pol, long i,long  n,long m, long * roots, long start, long stop);*/
 
 /**
  * Computes forward NTT

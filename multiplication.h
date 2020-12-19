@@ -60,6 +60,5 @@ void multiplied_normal2(struct pol *pol1, struct pol *pol2,struct pol *result, l
  */
 long lpow(long base, long power);
 
-void matrix_multiplication_normal();
 
 #endif //NTT_MULTIPLICATION_H
