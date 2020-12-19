@@ -17,6 +17,13 @@ struct pol addPolynomials(struct pol pol1, struct pol pol2, long size) {
     return result;
 }
 
+/**
+ * Multiplies a row by a vector and returns the result polynomial
+ * @param row The row that is to be multiplied
+ * @param vector The vector that is to be multiplied
+ * @param size The size of the row and vector
+ * @return  The polynomial that is the row multiplied by the vector
+ */
 struct pol multiplyRowByVectorNormal(struct pol *row,
                                      struct pol *vector,
                                      int size) {
@@ -124,10 +131,10 @@ void pcommitNormal(struct A_1_marked *A_1_marked,
 
 /**
  * Multiplies a row by a vector and returns the result polynomial
- * @param row The row that is to be multiplied
- * @param vector The vector that is to be multiplied
+ * @param row The row that is to be multiplied in NTT version
+ * @param vector The vector that is to be multiplied in NTT version
  * @param size The size of the row and vector
- * @return  The polynomial that is the row multiplied by the vector
+ * @return  The polynomial that is the row multiplied by the vector in NTT version
  */
 struct pol multiplyRowByVectorNTT(struct pol *row, struct pol *vector, int size) {
     struct pol result;
@@ -257,6 +264,13 @@ void inverseNTT_commitmentvectorDL(struct comitment_vector_DL *vector) {
     }
 }
 
+/**
+ * Multiplies the matrix A_1 by the randomnessvector r
+ * where A_1 = [I_d  A_1_marked]
+ * @param A_1_marked Pointer to the last part of the A_1 vector with random polynomials as input
+ * @param randomness Pointer to the randomness vector
+ * @param commit Pointer to the commitvector where the result is stored
+ */
 void pmatrixTimesVectorNTTA_1(struct A_1_marked *A_1_marked, struct randomness_vector_K *randomness,
                               struct comitment_vector_DL *commit) {
     for (int i = 0; i < D; i++) {
