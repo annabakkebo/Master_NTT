@@ -85,6 +85,13 @@ void commitNormal(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, st
     }
 }
 
+/**
+ * Multiplies the matrix A_1 by the randomnessvector r
+ * where A_1 = [I_D  A_1_marked]
+ * @param A_1_marked Pointer to the last part of the A_1 vector with random polynomials as input
+ * @param randomness Pointer to the randomness vector
+ * @param commit Pointer to the commitvector where the result is stored
+ */
 void pmatrixTimesVectorNormalA_1(struct A_1_marked *A_1_marked,
                                  struct randomness_vector_K *randomness,
                                  struct comitment_vector_DL *commit) {
@@ -100,6 +107,13 @@ void pmatrixTimesVectorNormalA_1(struct A_1_marked *A_1_marked,
     }
 }
 
+/**
+ * Multiplies the matrix A_2 by the randomnessvector r
+ * where A_2 = [0^(LxD)   I_L  A_2_marked]
+ * @param A_2_marked Pointer to the last part of the A_2 vector with random polynomials as input
+ * @param randomness Pointer to the randomness vector
+ * @param commit Pointer to the commitvector where the result is stored
+ */
 void pmatrixTimesVectorNormalA_2(struct A_2_marked *A_2_marked,
                                  struct randomness_vector_K *randomness,
                                  struct comitment_vector_DL *commit) {
@@ -169,15 +183,15 @@ void forwardNTT_matrices_vector(struct A_1_marked *A_1_marked, struct A_2_marked
         for (int j = 0; j < K - D; j++) {
             forward_NTT2(&A_1_marked->pol[i][j], NTT_forward, 0, 0, get_Level(), get_N());
         }
-    }
+    } //forward NTT of A_1_marked matrix
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < K - D - L; j++) {
             forward_NTT2(&A_2_marked->pol[i][j], NTT_forward, 0, 0, get_Level(), get_N());
         }
-    }
+    } //forward NTT of A_2_marked matrix
     for (int i = 0; i < K; i++) {
         forward_NTT2(&randomness->pol[i], NTT_forward, 0, 0, get_Level(), get_N());
-    }
+    } //forward NTT of the randomness vector
 }
 
 void matrixTimesVectorNTTA_1(struct A_1_marked A_1_marked, struct randomness_vector_K randomness,
@@ -266,7 +280,7 @@ void inverseNTT_commitmentvectorDL(struct comitment_vector_DL *vector) {
 
 /**
  * Multiplies the matrix A_1 by the randomnessvector r
- * where A_1 = [I_d  A_1_marked]
+ * where A_1 = [I_D  A_1_marked]
  * @param A_1_marked Pointer to the last part of the A_1 vector with random polynomials as input
  * @param randomness Pointer to the randomness vector
  * @param commit Pointer to the commitvector where the result is stored
@@ -288,6 +302,13 @@ void pmatrixTimesVectorNTTA_1(struct A_1_marked *A_1_marked, struct randomness_v
     }
 }
 
+/**
+ * Multiplies the matrix A_2 by the randomnessvector r
+ * where A_2 = [0^(LxD)   I_L  A_2_marked]
+ * @param A_2_marked Pointer to the last part of the A_2 vector with random polynomials as input
+ * @param randomness Pointer to the randomness vector
+ * @param commit Pointer to the commitvector where the result is stored
+ */
 void pmatrixTimesVectorNTTA_2(struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness,
                               struct comitment_vector_DL *commit) {
     for (int i = 0; i < L; i++) {
