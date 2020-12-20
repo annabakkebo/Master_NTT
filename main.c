@@ -112,7 +112,7 @@ int main() {
     double xaxis[12] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[12] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[12] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting=5;
+    int timestesting=20;
     for (int j = 0; j < timestesting; j++) {
         for (long i = 2; i < 14; i++) {
 
