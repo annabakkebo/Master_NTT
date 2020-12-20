@@ -84,102 +84,35 @@ int main() {
 
     srand(time(NULL));
     struct A_1_marked A_1;
-    for(int i=0;i<D;i++){
-        for(int j=0;j<(K-D);j++) {
-            struct pol pol1;
-            random_numb(pol1.coeffs, get_N());
-            A_1.pol[i][j] = pol1;
-        }
-    }
+
 
     struct A_2_marked A_2;
-    for(int i=0;i<L;i++){
-        for(int j=0;j<(K-D-L);j++) {
-            struct pol pol1;
-            random_numb(pol1.coeffs, get_N());
-            A_2.pol[i][j] = pol1;
-        }
-    }
 
-    printf("A_1");
-    for(int i=0;i<D;i++){
-        for(int j=0;j<(K-D);j++) {
-            printpolynomial(A_1.pol[i][j]);
-        }printf("\n");
-    }
-    printf("A_2");
-    for(int i=0;i<L;i++){
-        for(int j=0;j<(K-D-L);j++) {
-            printpolynomial(A_2.pol[i][j]);
-        }printf("\n");
-    }
 
     struct randomness_vector_K r;
-    for(int i=0;i<K;i++){
-        struct pol pol1;
-        random_numb(pol1.coeffs, get_N());
-        r.pol[i] = pol1;
-    }
-    printf("r: ");
-    for(int i=0;i<K;i++){
-        printpolynomial(r.pol[i]);
-    }printf("\n");
+
     struct comitment_vector_DL c1;
     struct comitment_vector_DL c2;
-    printf("The commitment, c1, before committing \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
-    }
 
-    printf("The commitment, c2, before committing \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c2.pol[i]);
-    }
 
     struct message_vector_L m;
-    for(int i=0;i<L;i++){
-        struct pol pol1;
-        random_numb(pol1.coeffs, get_N());
-        m.pol[i] = pol1;
-    }
 
-    printf("The commitment is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
-    }
-
-    commitNormal(A_1,A_2,r,m,&c2);
-    printf("The commitment using normal is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c2.pol[i]);
-    }
-    commitNTT(A_1,A_2,r,m,&c1);
-    printf("The commitment using NTT is \n");
-    for(int i=0;i< D+L;i++){
-        printpolynomial(c1.pol[i]);
-    }
-    for(int i=0;i<D+L;i++){
-        checkEqual(c1.pol,c2.pol,get_N());
-    }
 
     clock_t begin_normal; //start time for the normal multiplication
     clock_t end_normal; // end time for the normal multiplication
     clock_t begin_NTT; // start time for NTT multiplication
-    //clock_t begin_mult_NTT = clock();
-    //clock_t end_mult_NTT = clock();
     clock_t end_NTT = clock(); //end time for NTT multiplication
 
 
     double time_spent_norm; // time spent during normal multiplication
     double time_spent_NTT; // time spent during NTT multiplication
-    double time_spent_mult_NTT;
 
     int difference; //how much faster the NTT time was compared to normal multiplication
 
     double xaxis[12] = {0}; //where the values for the x-axis will be stored
     double yaxisNTT[12] = {0}; // values corresponding to xaxis with running time for NTT multiplication
     double yaxisNormal[12] = {0}; // values corresponding to xaxis with running time for normal multiplication
-    int timestesting=20;
+    int timestesting=5;
     for (int j = 0; j < timestesting; j++) {
         for (long i = 2; i < 14; i++) {
 
@@ -220,12 +153,12 @@ int main() {
 
             printf("Committing the ''Normal way''...   ");
             begin_normal = clock();
-            commitNormal(A_1,A_2,r,m,&c2);
+            pcommitNormal(&A_1,&A_2,&r,&m,&c2);
             end_normal = clock();
 
             printf("Committing using NTT...\n");
             begin_NTT = clock();
-            commitNTT(A_1,A_2,r,m,&c1);
+            pcommitNTT(&A_1,&A_2,&r,&m,&c1);
 
             end_NTT = clock();
 
@@ -264,7 +197,7 @@ int main() {
 
     printf("\n\n");
     printf("");
-    FILE *f = fopen("plot16_doublecheck.txt", "w");
+    FILE *f = fopen("plot16_usingpointer.txt", "w");
     if (f == NULL)
     {
         printf("Error opening file!\n");
@@ -296,8 +229,6 @@ int main() {
     series2->ys = yaxisNormal;
     series2->ysLength = 12;
     series2->linearInterpolation = true;
-    /*series2->lineType = L"dashed";
-    series2->lineTypeLength = wcslen(series1->lineType);*/
     series2->lineThickness = 2;
     series2->color = GetGray(0.2);
 
@@ -322,7 +253,7 @@ int main() {
 
     size_t length;
     double *pngdata = ConvertToPNG(&length, canvasReference->image);
-    WriteToFile(pngdata, length, "plot16_doublecheck.png");
+    WriteToFile(pngdata, length, "plot16_usingpointer.png");
     DeleteImage(canvasReference->image);
 
     return 0;

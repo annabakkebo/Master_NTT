@@ -54,6 +54,11 @@ void matrixTimesVectorNormalA_2(struct A_2_marked A_2_marked, struct randomness_
 void commitNormal(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struct randomness_vector_K randomness,
                   struct message_vector_L message, struct comitment_vector_DL *commit);
 
+void pcommitNormal(struct A_1_marked *A_1_marked,
+                   struct A_2_marked *A_2_marked,
+                   struct randomness_vector_K *randomness,
+                   struct message_vector_L *message,
+                   struct comitment_vector_DL *commit);
 
 /**
  * Computes NTT forward of all the polynomials in the matrices and vector
@@ -114,7 +119,8 @@ void inverseNTT_commitmentvectorDL(struct comitment_vector_DL *vector);
 void commitNTT(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struct randomness_vector_K randomness,
                struct message_vector_L message, struct comitment_vector_DL *commit);
 
-
+void pcommitNTT(struct A_1_marked *A_1_marked, struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness,
+                struct message_vector_L *message, struct comitment_vector_DL *commit);
 
 
 struct pol multiplyRowByVectorNTT(struct pol *row, struct pol *vector, int size);
