@@ -7,6 +7,14 @@
 
 #include "params.h"
 
+
+/**
+ * Adding all coefficients of two polynomials
+ * @param pol1 The first polynomial that is to be added
+ * @param pol2 The second polynomial that is to be added
+ * @param size The degree of the two polynomials
+ * @return The sum of the two polynomials
+ */
 struct pol addPolynomials(struct pol pol1, struct pol pol2, long size);
 
 /**
@@ -54,11 +62,29 @@ void matrixTimesVectorNormalA_2(struct A_2_marked A_2_marked, struct randomness_
 void commitNormal(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struct randomness_vector_K randomness,
                   struct message_vector_L message, struct comitment_vector_DL *commit);
 
-void pcommitNormal(struct A_1_marked *A_1_marked,
-                   struct A_2_marked *A_2_marked,
-                   struct randomness_vector_K *randomness,
-                   struct message_vector_L *message,
-                   struct comitment_vector_DL *commit);
+/**
+ * Commits the message m by computing
+ *
+ * <table style="margin-left:40px;">
+   <tbody>
+      <tr>
+      <td> commit = </td>
+      <td>[A_1] <br> [A_2]</td>
+      <td> * r + </td>
+      <td> [0<sup>D</sup>]<br> [m] </td>
+      </tr>
+   </tbody>
+   </table>
+ * Using normal multiplication
+ * @param A_1_marked pointer to a D times K-D vector used as the last part of the A_1 vector
+ * @param A_2_marked pointer to a L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness pointer to the randomnessvector r of length K
+ * @param message pointer to the message m of length L
+ * @param commit pointer to the commitment vector of length D+L
+ */
+void pcommitNormal(struct A_1_marked *A_1_marked, struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness,
+                   struct message_vector_L *message, struct comitment_vector_DL *commit);
+
 
 /**
  * Computes NTT forward of all the polynomials in the matrices and vector
@@ -119,6 +145,25 @@ void inverseNTT_commitmentvectorDL(struct comitment_vector_DL *vector);
 void commitNTT(struct A_1_marked A_1_marked, struct A_2_marked A_2_marked, struct randomness_vector_K randomness,
                struct message_vector_L message, struct comitment_vector_DL *commit);
 
+/**
+ * Commits the message m by computing
+ *
+ * <table style="margin-left:40px;">
+   <tbody>
+      <tr>
+      <td>[A_1] <br> [A_2]</td>
+      <td> * r + </td>
+      <td> [0<sup>D</sup>]<br> [m] </td>
+      </tr>
+   </tbody>
+   </table>
+ * Using NTT multiplication
+ * @param A_1_marked pointer to a D times K-D vector used as the last part of the A_1 vector
+ * @param A_2_marked pointer to a L times (K-D-L) vector used as the last part of the A_1 vector
+ * @param randomness pointer to a randomnessvector r of length K
+ * @param message pointer to the message m of length L
+ * @param commit pointer to the commitment vector of length D+L
+ */
 void pcommitNTT(struct A_1_marked *A_1_marked, struct A_2_marked *A_2_marked, struct randomness_vector_K *randomness,
                 struct message_vector_L *message, struct comitment_vector_DL *commit);
 
